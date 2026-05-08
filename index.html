@@ -23,125 +23,94 @@ body{
     justify-content:center;
     align-items:center;
 
-    font-family:Georgia, serif;
-
-    background-image:url('img/runaterra_menu.webp');
+    background-image:url('imgrunaterra_menu.webp');
     background-size:cover;
     background-position:center;
     background-repeat:no-repeat;
-    background-attachment:fixed;
 
     overflow:hidden;
+
+    font-family:Georgia, serif;
 }
 
-body::before{
-    content:"";
-
-    position:fixed;
-    inset:0;
-
-    background:rgba(0,0,0,0.45);
-}
-
-.container{
+.overlay{
 
     position:relative;
-    z-index:2;
 
     width:100%;
-    max-width:650px;
-
-    padding:40px;
+    max-width:700px;
+    height:900px;
 }
 
-.title{
-
-    text-align:center;
-
-    font-size:72px;
-
-    color:#d6b36a;
-
-    margin-bottom:50px;
-
-    text-shadow:
-    0 0 10px rgba(0,0,0,0.8),
-    0 0 30px rgba(0,0,0,0.6);
-
-    letter-spacing:3px;
-}
-
-.menu{
-
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-}
+/* BOTONES */
 
 .character{
 
-    display:flex;
-    align-items:center;
+    position:absolute;
 
-    gap:20px;
+    left:50%;
+    transform:translateX(-50%);
 
-    padding:18px 25px;
-
-    background:rgba(10,10,15,0.82);
-
-    border:1px solid rgba(214,179,106,0.4);
+    width:470px;
+    height:72px;
 
     border-radius:14px;
 
-    text-decoration:none;
-
-    color:#d6b36a;
-
-    font-size:30px;
+    cursor:pointer;
 
     transition:0.25s;
 
-    backdrop-filter:blur(4px);
+    background:rgba(255,255,255,0);
 }
 
 .character:hover{
 
-    transform:scale(1.03);
-
-    background:rgba(20,20,30,0.95);
-
-    border-color:#d6b36a;
+    background:rgba(214,179,106,0.12);
 
     box-shadow:
     0 0 20px rgba(214,179,106,0.35);
 }
 
-.icon{
+/* POSICIONES */
 
-    width:55px;
-    height:55px;
+.sarato{
+    top:285px;
+}
 
-    object-fit:contain;
+.ethan{
+    top:392px;
+}
+
+.elizabeth{
+    top:500px;
+}
+
+.claire{
+    top:608px;
+}
+
+.baldor{
+    top:716px;
+}
+
+.erks{
+    top:823px;
+}
+
+@media(max-width:900px){
+
+    .overlay{
+
+        transform:scale(0.8);
+    }
+
 }
 
 @media(max-width:700px){
 
-    .container{
-        padding:20px;
-    }
+    .overlay{
 
-    .title{
-        font-size:42px;
-    }
-
-    .character{
-        font-size:22px;
-        padding:15px;
-    }
-
-    .icon{
-        width:40px;
-        height:40px;
+        transform:scale(0.6);
     }
 
 }
@@ -151,45 +120,19 @@ body::before{
 
 <body>
 
-<div class="container">
+<div class="overlay">
 
-    <div class="title">
-        TALES OF RUNATERRA
-    </div>
+    <a href="sarato.html" class="character sarato"></a>
 
-    <div class="menu">
+    <a href="ethan.html" class="character ethan"></a>
 
-        <a href="sarato.html" class="character">
-            <img src="img/icons/sarato.png" class="icon">
-            <span>Sarato</span>
-        </a>
+    <a href="elizabeth.html" class="character elizabeth"></a>
 
-        <a href="ethan.html" class="character">
-            <img src="img/icons/ethan.png" class="icon">
-            <span>Ethan</span>
-        </a>
+    <a href="claire.html" class="character claire"></a>
 
-        <a href="elizabeth.html" class="character">
-            <img src="img/icons/elizabeth.png" class="icon">
-            <span>Elizabeth</span>
-        </a>
+    <a href="baldor.html" class="character baldor"></a>
 
-        <a href="claire.html" class="character">
-            <img src="img/icons/claire.png" class="icon">
-            <span>Claire</span>
-        </a>
-
-        <a href="baldor.html" class="character">
-            <img src="img/icons/baldor.png" class="icon">
-            <span>Baldor</span>
-        </a>
-
-        <a href="erks.html" class="character">
-            <img src="img/icons/erks.png" class="icon">
-            <span>Erk's</span>
-        </a>
-
-    </div>
+    <a href="erks.html" class="character erks"></a>
 
 </div>
 
