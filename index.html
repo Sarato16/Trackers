@@ -1,83 +1,151 @@
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Trackers</title>
+<title>Tales of Runaterra</title>
 
 <style>
 
-body{
+*{
     margin:0;
-    background:#0b0b0f;
-    font-family:Arial, sans-serif;
-    color:white;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    min-height:100vh;
 
     display:flex;
     justify-content:center;
     align-items:center;
 
-    min-height:100vh;
+    font-family:Georgia, serif;
+
+    background-image:url('img/runaterra_menu.webp');
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+
+    overflow:hidden;
+}
+
+body::before{
+    content:"";
+
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,0.45);
 }
 
 .container{
+
+    position:relative;
+    z-index:2;
+
     width:100%;
-    max-width:700px;
+    max-width:650px;
+
     padding:40px;
-    box-sizing:border-box;
 }
 
-h1{
+.title{
+
     text-align:center;
-    margin-bottom:40px;
-    font-size:42px;
-    letter-spacing:2px;
+
+    font-size:72px;
+
+    color:#d6b36a;
+
+    margin-bottom:50px;
+
+    text-shadow:
+    0 0 10px rgba(0,0,0,0.8),
+    0 0 30px rgba(0,0,0,0.6);
+
+    letter-spacing:3px;
 }
 
-.grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
+.menu{
+
+    display:flex;
+    flex-direction:column;
     gap:20px;
 }
 
-a{
-    background:#16161d;
-    border:1px solid #2a2a35;
+.character{
+
+    display:flex;
+    align-items:center;
+
+    gap:20px;
+
+    padding:18px 25px;
+
+    background:rgba(10,10,15,0.82);
+
+    border:1px solid rgba(214,179,106,0.4);
 
     border-radius:14px;
 
-    padding:25px;
-
-    text-align:center;
-
     text-decoration:none;
-    color:white;
 
-    font-size:22px;
-    font-weight:bold;
+    color:#d6b36a;
 
-    transition:0.2s;
+    font-size:30px;
+
+    transition:0.25s;
+
+    backdrop-filter:blur(4px);
 }
 
-a:hover{
-    transform:translateY(-3px);
-    background:#23232d;
-    border-color:#555;
+.character:hover{
+
+    transform:scale(1.03);
+
+    background:rgba(20,20,30,0.95);
+
+    border-color:#d6b36a;
+
+    box-shadow:
+    0 0 20px rgba(214,179,106,0.35);
+}
+
+.icon{
+
+    width:55px;
+    height:55px;
+
+    object-fit:contain;
 }
 
 @media(max-width:700px){
 
-    .grid{
-        grid-template-columns:1fr;
+    .container{
+        padding:20px;
     }
 
-    h1{
-        font-size:32px;
+    .title{
+        font-size:42px;
+    }
+
+    .character{
+        font-size:22px;
+        padding:15px;
+    }
+
+    .icon{
+        width:40px;
+        height:40px;
     }
 
 }
+
 </style>
 </head>
 
@@ -85,21 +153,41 @@ a:hover{
 
 <div class="container">
 
-    <h1>Character Trackers</h1>
+    <div class="title">
+        TALES OF RUNATERRA
+    </div>
 
-    <div class="grid">
+    <div class="menu">
 
-        <a href="sarato.html">Sarato</a>
+        <a href="sarato.html" class="character">
+            <img src="img/icons/sarato.png" class="icon">
+            <span>Sarato</span>
+        </a>
 
-        <a href="ethan.html">Ethan</a>
+        <a href="ethan.html" class="character">
+            <img src="img/icons/ethan.png" class="icon">
+            <span>Ethan</span>
+        </a>
 
-        <a href="elizabeth.html">Elizabeth</a>
+        <a href="elizabeth.html" class="character">
+            <img src="img/icons/elizabeth.png" class="icon">
+            <span>Elizabeth</span>
+        </a>
 
-        <a href="claire.html">Claire</a>
+        <a href="claire.html" class="character">
+            <img src="img/icons/claire.png" class="icon">
+            <span>Claire</span>
+        </a>
 
-        <a href="baldor.html">Baldor</a>
+        <a href="baldor.html" class="character">
+            <img src="img/icons/baldor.png" class="icon">
+            <span>Baldor</span>
+        </a>
 
-        <a href="erks.html">Erk's</a>
+        <a href="erks.html" class="character">
+            <img src="img/icons/erks.png" class="icon">
+            <span>Erk's</span>
+        </a>
 
     </div>
 
@@ -107,4 +195,3 @@ a:hover{
 
 </body>
 </html>
-
