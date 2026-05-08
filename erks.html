@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Erks Tracker - Edición Definitiva</title>
+    <style>
+        html{overflow-y:scroll} body { 
+    background-color: #0a0a0a; 
+    background-image: url('fondo_zaun_chemtech.jpg'); 
+    background-size: cover; 
+    background-attachment: fixed; 
+    background-position: center;
+            color: white; 
+            font-family: 'Segoe UI', Arial; 
+            padding: 10px; 
+            margin: 0; 
+            font-size: 0.85rem; 
+        }
+
+        #sidebar {
+            position: fixed;
+            left: -280px;
+            top: 0;
+            width: 280px;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.98);
+            border-right: 2px solid #00ff88;
+            transition: 0.3s;
+            z-index: 1000;
+            padding: 20px 15px;
+            box-shadow: 5px 0 15px rgba(0,0,0,0.8);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+        #sidebar.active { left: 0; }
+        .toggle-sidebar {
+            position: absolute;
+            right: -45px;
+            top: 20px;
+            width: 45px;
+            height: 45px;
+            background: rgba(15, 15, 15, 0.95);
+            color: #00ff88;
+            border: 1px solid #444;
+            border-left: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-limpiar-menu {
+            background: #440000 !important;
+            font-size: 0.7rem !important;
+            margin-top: auto !important;
+            opacity: 0.5;
+        }
+        .btn-limpiar-menu:hover { opacity: 1; background: #880000 !important; }
+
+        .grid { display: grid; grid-template-columns: 1.8fr 1.2fr; gap: 10px; transition: margin-left 0.3s; }
+        .panel { 
+            background: rgba(15, 15, 15, 0.95); 
+            border: 1px solid #444; 
+            border-radius: 8px; 
+            padding: 10px; 
+            margin-bottom: 8px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .hover-panel { 
+            max-height: 42px; 
+            overflow: hidden; 
+            transition: max-height 0.4s ease-in-out; 
+            cursor: pointer;
+        }
+        .hover-panel.active { 
+            max-height: 500px; 
+        }
+        
+        .avatar-active { box-shadow: 0 0 20px #0aff66, inset 0 0 10px #0a8f4e; border-color: #00ff88 !important; transition: 0.3s; }
+        
+        h1 { text-align: center; color: #00ff88; text-shadow: 2px 2px 4px #000; margin: 5px 0; font-size: 1.5rem; }
+        h3 { border-bottom: 1px solid #00ff88; padding-bottom: 3px; color: #00ff88; margin: 0 0 8px 0; font-size: 1rem; }
+        
+        table { width: 100%; border-collapse: collapse; text-align: center; background: rgba(0,0,0,0.5); }
+        th, td { border: 1px solid #444; padding: 4px; }
+        .mod-val { color: #ffd84c; font-weight: bold; font-size: 1.1em; }
+        .buff-val { color: #00ff88; font-weight: bold; }
+
+        .estado-vital-container { 
+            background: rgba(10, 10, 10, 0.92); 
+            border-radius: 4px; 
+            padding: 12px; 
+            border-top: 2px solid #00ff88;
+            margin-bottom: 10px;
+        }
+        .vital-header { display: flex; align-items: center; gap: 8px; color: #7df9c5; font-weight: bold; margin-bottom: 10px; font-size: 0.95rem; }
+        .vital-main { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .hp-label { color: #00ff88; font-size: 1.3rem; font-weight: bold; }
+        .shield-label { color: #7df9c5; font-size: 1.1rem; }
+        .defensas-row { font-size: 0.9rem; display: flex; gap: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 8px; }
+
+        .equip-slot { background: rgba(255, 255, 255, 0.07); padding: 8px; border-radius: 5px; margin-bottom: 5px; border-left: 3px solid #00ff88; }
+        select, input { background: #222; color: white; border: 1px solid #555; padding: 4px 8px; border-radius: 4px; width: 100%; box-sizing: border-box; font-size: 0.85rem; }
+        
+        .weapon-info { background: rgba(0,0,0,0.6); border: 1px dashed #666; padding: 5px; margin-top: 5px; font-size: 0.8em; border-radius: 4px; }
+        
+        button { box-sizing:border-box; background: #333; color: white; border: none; padding: 6px; border-radius: 4px; cursor: pointer; transition: 0.2s; margin: 2px 0; width: 100%; font-weight: bold; font-size: 0.8rem; }
+        button:hover { background: #555; border-color: #777; transform:none; }
+        .btn-rq { background: #d35400; }
+        .btn-heal { background: #00ff88; color: black; }
+        .btn-shield { background: #00d4aa; }
+        .btn-reset { background: #0a8f4e !important; color: white; margin-top: 10px; }
+        .btn-turno { background: #007a5e; padding: 4px 15px; width: auto; min-width: 120px; display: block; margin: 5px auto; }
+
+        .log { height: 180px; overflow-y: auto; background: rgba(0,0,0,0.85); padding: 8px; border: 1px solid #444; font-family: monospace; font-size: 0.8em; display: flex; flex-direction: column-reverse; }
+        .orbe { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin: 1px; background: #00ff88; box-shadow: 0 0 4px #00ff88; }
+        .vacio { background: #333; box-shadow: none; }
+        
+        .status-tag { display: flex; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 3px 6px; margin: 2px 0; border-radius: 3px; border-left: 2px solid #ffd84c; font-size: 0.75em; }
+        
+        .total-dmg-box { background: rgba(50, 0, 0, 0.8); border: 1px solid #622; padding: 5px; text-align: center; border-radius: 4px; margin-top: 5px; }
+
+        .item-entry { background: rgba(255,255,255,0.05); padding: 6px; margin: 4px 0; border-radius: 4px; border-left: 2px solid #e67e22; font-size: 0.75rem; }
+        .money-entry { display: flex; justify-content: space-between; color: #ffd84c; border-bottom: 1px solid #333; padding: 2px 0; }
+    
+        .tooltip-wrapper {
+            position: relative;
+            display: inline-block;
+            
+            border-bottom: 1px dotted #888;
+        }
+        .tooltip-text {
+            visibility: hidden;
+            width: 320px;
+            background-color: #0f0f0f;
+            color: #e0e0e0;
+            text-align: left;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 9999;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -160px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            border: 1px solid #444;
+            font-size: 11px;
+            line-height: 1.5;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.8);
+            white-space: pre-wrap;
+        }
+        .tooltip-wrapper:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #444 transparent transparent transparent;
+        }
+        .tooltip-text .pros { color: #4ade80; }
+        .tooltip-text .contras { color: #f87171; }
+        .tooltip-text .avatar { color: #39ff14; }
+
+    
+.tooltip-custom {
+    position: fixed;
+    display: none;
+    background: #0f1f0f;
+    color: #ffd84c;
+    padding: 10px 14px;
+    border: 2px solid #0a8f4e;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: 'Courier New', monospace;
+    z-index: 99999;
+    pointer-events: none;
+    max-width: 350px;
+    white-space: pre-wrap;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.8);
+    line-height: 1.4;
+}
+.skill-btn-tooltip {
+                border-color: #2a5a2a !important;
+    position: relative;
+}
+
+.skill-btn-tooltip:hover::after {
+    visibility: visible;
+    opacity: 1;
+}
+</style>
+</head>
+<script>
+const desc = {
+"Taunt": `Nivel 1 - Acción: Taunt
+Golpeas tu escudo, provocas en cono 20m (Salv Perc CD15) por 2 turnos. Acción adicional: Modo Defensa.
+
+Pros: +2 Mod.Agu por cada enemigo provocado
+Limitaciones: Requiere escudo. Consume 1 Espacio`,
+"Prot. Fugaz": `Nivel 2 - Reacción: Protección Fugaz
+Barrera a aliado visible: mitiga 1d20 + Mod.Fue + Mod.Agu hasta romperse.
+
+Pros: Con acción adicional mejoras +1d20 gastando 1 Espacio
+Limitaciones: Requiere escudo. Consume 2 Espacios`,
+"Glifo del Guardián": `Nivel 3 - Reacción: Glifo del Guardián
+Aplicas un Glifo Custodio al tocar a un aliado. Cuando cae a 0 HP: entra en Éxtasis (1 turno extra) y se cura 1d20 + Mod.Agu.
+
+Debe derrotar a un enemigo en ese turno:
+• Si lo logra → queda consciente con la vida curada
+• Si falla o cae de nuevo a 0 → cae inconsciente
+
+Pros: Segunda oportunidad real en combate
+Limitaciones: Consume 3 Espacios. 1 vez por aliado por combate`,
+"Exilio": `Nivel 4 - Acción adicional: Exilio
+Aplicas runa al tocar enemigo: -15 ARM y MR por 2 turnos. Tú ganas +15 ARM y MR.
+
+Pros: Robo defensivo directo
+Limitaciones: Consume 3 Espacios`,
+"Efigie": `Nivel 5 - Acción: Efigie
+Domo 20m, duración = Mod.Fue turnos. Aliados: cura 1d12 + Mod.Agu/turno e inmunes a proyectiles. Puedes lanzar conjuros y atacar con espada gigante.
+
+Daño: 5d20 + Mod.Fue (40m línea / 20m barrido)
+Limitaciones: Consume 5 Espacios. Si sales del domo termina`,
+"Sobrecarga Carmesí": `Nivel 1 - Acción: Sobrecarga Carmesí
+Tu arma Darkin absorbe el daño recibido. Como acción, devuelves todo el daño acumulado x2 con ventaja.
+
+Pros Avatar: Acumula hasta Mod.Agu x2
+Limitaciones: Máx Mod.Agu (normal). Se reinicia al usar o tras 2 turnos sin devolver. Consume 1 Espacio`,
+"Égida Carmesí": `Nivel 2 - Acción adicional: Égida Carmesí
+Barrera demoníaca a aliado visible: 1d20 + Mod.Fue + Mod.Agu (dura 1 turno).
+
+Al romperse: aliado +3 a su próxima tirada de ataque, tú +1 Fue temporal.
+
+Pros: Acción completa +1d20 extra (1 Espacio más)
+Pros Avatar: Aliado obtiene +daño = tu Mod.Fue
+Limitaciones: Dura 1 turno. Consume 2 Espacios (3 si potencias)`,
+"Dominio Carmesí": `Nivel 4 - Acción: Dominio Carmesí
+Grito en cono 40m (Salv Perc CD18) provoca 2 turnos.
+
+Acción adicional: golpeas hasta Mod.Des enemigos, recuperas 1d8 HP por impacto.
+
+Pros: +3 Fue temporal por cada enemigo provocado
+Pros Avatar: El bonus de Fue se vuelve permanente hasta fin de combate
+Limitaciones: Consume 4 Espacios. Dura 2 turnos`,
+"Efigie Darkin": `Nivel 5 - Acción + Concentración: Efigie Darkin
+Te fusionas con Avatar Darkin gigante (20m, 300 HP). Duración = Mod.Fue turnos.
+
+Daño: 8d20 + Mod.Fue (20m línea / 10m barrido)
+Aura 10m: aliados eligen +5 ataque O robo vida = 50% daño físico
+
+Limitaciones: Consume 5 Espacios. Termina si destruyen avatar o pierdes concentración`
+};
+
+
+
+        const textoPasivas = {
+            Fuerza: `8 Fue: Aumento de fuerza de carga 70kg<br>9 Fue: Aumento de distancia de salto a 10m<br>10 Fue: Aumentas la posibilidad de desarmar a un enemigo en 1d4<br>12 Fue: Aumentas la posibilidad de aboyar estructuras duras en 1d6<br>15 Fue: Eficacia a la hora de embestir en 1d4<br>20 Fue: Aumento de fuerza de carga a 150kg<br>30 Fue: El daño de mano limpia pasa a ser 1d10 + Mod. Fue`,
+            Destreza: `8 Dest: Aumentas tu posibilidad de esquivar con 1d4<br>10 Dest: Puedes moverte tu Dest. En Combate<br>12 Dest: Obtienes dos ataques en 1 acción.<br>15 Dest: Aumentas tu posibilidad de entrar en sigilo con 1d8`,
+            Percepcion: `8 Pers: Aumentas la posibilidad de observar trampas y/o objetos del entorno en 1d4<br>9 Pers: Puedes concentrarte en un sonido en específico obtenido ventaja<br>10 Pers: Aumentas la posibilidad de detectar venenos en comidas/bebidas en 1d4`,
+            Inteligencia: `8 Int: Reduces el tiempo de aprendizaje de cualquier cosa en 2 días<br>9 Int: Puedes analizar el estado de un enemigo<br>10 Int: Reconocimiento de punto débil del enemigo`,
+            Magia: `8 Mag: Permite la conversión de Espacio de Conjuro en vida temporal 1=+10<br>9 Mag: Aumentas la posibilidad de observar entornos y/o objetos mágicos en 1d4<br>10 Mag: Permite concentrarse 1 turno en un hechizo y lanzarlo de forma gratuita`,
+            Aguante: `8 Agu: Aumenta la vida máxima en +5<br>9 Agu: Tienes ventaja a las tiradas de Salvación contra Venenos<br>10 Agu: Reduces a la mitad los daños de caída/golpes contra objetos<br>12 Agu: Aumenta la vida máxima en +10<br>15 Agu: En Modo Defensa duplicas la mitigación de daño<br>20 Agu: Aumenta la vida máxima en +30`
+        };
+
+        function mostrarPasivasStat() {
+            const stat = document.getElementById("filtroStat").value;
+            const divTexto = document.getElementById("textoPasivas");
+            if (stat && textoPasivas[stat]) {
+                divTexto.innerHTML = textoPasivas[stat];
+            } else {
+                divTexto.innerHTML = '<span style="color:#888;">Selecciona un stat para ver sus pasivas</span>';
+            }
+        }
+
+
+        // === FASE DE DEFENSA ===
+        window.faseDefensaActual = 1;
+        
+        const descripcionesDefensa = {
+            1: "<b>1º Defensa:</b> Utiliza tu modificador de estadística completo para defenderte",
+            2: "<b>2º Defensa:</b> Utiliza la mitad de tu modificador de estadística completo para defenderte",
+            3: "<b>3º Defensa:</b> Solo utiliza el d20 sin modificador, y así también se repite en el resto de defensas"
+        };
+        
+        const coloresDefensa = {
+            1: "#00d4aa",
+            2: "#f39c12", 
+            3: "#e74c3c"
+        };
+        
+        window.actualizarFaseDefensa = function() {
+            const texto = document.getElementById("faseDefensaTexto");
+            const desc = document.getElementById("descDefensa");
+            if (!texto || !desc) return;
+            const sufijos = {1: "º", 2: "º", 3: "º"};
+            texto.innerText = window.faseDefensaActual + sufijos[window.faseDefensaActual] + " Defensa";
+            texto.style.color = coloresDefensa[window.faseDefensaActual];
+            desc.innerHTML = descripcionesDefensa[window.faseDefensaActual];
+        }
+        
+        window.usarDefensa = function() {
+            if (window.faseDefensaActual < 3) {
+                window.faseDefensaActual++;
+            }
+            window.actualizarFaseDefensa();
+        }
+        
+        window.resetDefensa = function() {
+            window.faseDefensaActual = 1;
+            window.actualizarFaseDefensa();
+        }
+        
+        // Inicializar al cargar
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', window.actualizarFaseDefensa);
+        } else {
+            window.actualizarFaseDefensa();
+        }
+        // === FIN FASE DE DEFENSA ===
+
+</script>
+
+<script>
+// parche historial
+(function(){
+    window._lastPct = 100;
+    const _origRecibir = window.recibirDmg;
+    window.recibirDmg = function(a,b){
+        _origRecibir(a,b);
+        try{
+            var pct = state.vidaMax? Math.floor(state.vida/state.vidaMax*100):0;
+            if(window._lastPct>75 && pct<=75) log("⚠️ Vida bajo 75% ("+state.vida+"/"+state.vidaMax+")","orange");
+            if(window._lastPct>50 && pct<=50) log("⚠️ Vida bajo 50% ("+state.vida+"/"+state.vidaMax+")","orange");
+            if(window._lastPct>25 && pct<=25) log("⚠️ Vida bajo 25% ("+state.vida+"/"+state.vidaMax+")","orange");
+            if(window._lastPct>10 && pct<=10) log("⚠️ Vida bajo 10% ("+state.vida+"/"+state.vidaMax+")","orange");
+            if(window._lastPct>0 && pct<=0) log("💀 ¡Has muerto!","red");
+            window._lastPct = pct;
+            log("📊 Estado: Vida "+state.vida+" | ARM "+state.arm+" | RM "+state.mr+" | ESC "+state.esc,"cyan");
+        }catch(e){console.error(e)}
+    };
+    const _origReset = window.resetSistema;
+    window.resetSistema = function(){
+        _origReset();
+        window._lastPct = 100;
+    };
+})();
+</script>
+</body>
+<body>
+
+    <div id="sidebar">
+        <button class="toggle-sidebar" onclick="document.getElementById('sidebar').classList.toggle('active')">🎒</button>
+        <h3>🎒 Mochila</h3>
+        <input type="text" id="itemName" placeholder="Nombre objeto..." style="margin-bottom:2px;">
+        <input type="text" id="itemStats" placeholder="Stats / Notas..." style="margin-bottom:4px;">
+        <button onclick="addMochila()" style="background:#e67e22;">Añadir a Mochila</button>
+        <div id="mochilaLista" style="overflow-y:auto; margin-top:10px;"></div>
+        <h3 style="margin-top:20px;">💰 Monedero</h3>
+        <div style="display:flex; gap:2px; margin-bottom:2px;">
+            <input type="number" id="monedaCant" placeholder="Cant." style="flex:0.8;">
+            <input type="text" id="monedaTipo" placeholder="Tipo" style="flex:1.2;">
+        </div>
+        <label style="display:flex;align-items:center;gap:6px;margin:4px 0;font-size:0.8rem"><input type="checkbox" id="chkBaul"> Guardar/Usar en Baúl</label>
+        <div style="display:flex; gap:4px;">
+            <button onclick="guardarDinero()" style="flex:1;background:#f1c40f; color:black;">Guardar</button>
+            <button onclick="usarDinero()" style="flex:1;background:#e74c3c;">Usar</button>
+        </div>
+        <div id="monederoLista" style="margin-top:10px;"></div>
+        <button class="btn-limpiar-menu" onclick="borrarDatosMenu()">🗑️ Limpiar Mochila/Monedero</button>
+    </div>
+
+    <h1>⚔️ Erks Tracker ⚔️</h1>
+
+    <div class="grid">
+        <div>
+            <div class="estado-vital-container">
+                <div class="vital-header">❤️ Estado Vital</div>
+                <div class="vital-main">
+                    <div class="hp-label">HP: <span id="vida">135</span> / <span id="vidaMax">135</span></div>
+                    <div class="shield-label">Escudo: <span id="esc">0</span></div>
+                </div>
+                <div class="defensas-row">
+                    <span style="color: #00d4aa;">🛡️ Armadura: <span id="arm">0</span></span>
+                    <span style="color: #ffd84c;">✨ MR: <span id="mr">0</span></span>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3>🎒 Armería</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div class="equip-slot">
+                        <label>🗡️ Arma Activa:</label>
+                        <select id="selArma" onchange="actualizarTodo()">
+                            <option value="" selected>-- Sin arma --</option>
+                            <option value="hachas_desgarradoras">2 Hachas Desgarradoras (Raras)</option>
+                            <option value="baston_titan">Bastón Titán de los Ecos (Mítico)</option>
+                        </select>
+                        <div id="infoArma" class="weapon-info"></div>
+                        <div style="margin-top:5px; display:none; gap:2px;">
+                            <button class="btn-rq" onclick="addRQ(1)" style="flex:1.5;">+Carga RQ (<span id="valRQ">0</span>)</button>
+                            <button class="btn-rq" onclick="usarRQ()" style="flex:1;">Liberar</button>
+                        </div>
+                    </div>
+                    <div class="equip-slot">
+                        <label>🛡️ Armadura:</label>
+                        <select id="selArmor" onchange="cargarEquipo()">
+                            <option value="" selected>-- Sin Armadura --</option>
+                            <option value="capa_cobertura">Capa Cobertura Excéntrica (Rara)</option>
+                        </select>
+                        <div id="infoArmor" class="weapon-info"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3>📊 Atributos</h3>
+                <table id="tablaStats"></table>
+
+        <div class="panel" style="margin-top:10px; margin-bottom:10px;">
+            <h3>📋 Pasivas de Stats</h3>
+            <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
+                <label style="font-weight:bold;">Ver pasivas de:</label>
+                <select id="filtroStat" onchange="mostrarPasivasStat()" style="padding:5px; background:#333; color:white; border:1px solid #555; border-radius:4px;">
+                    <option value="">-- Selecciona un stat --</option>
+                    <option value="Fuerza">Fuerza</option>
+                    <option value="Destreza">Destreza</option>
+                    <option value="Percepcion">Percepción</option>
+                    <option value="Inteligencia">Inteligencia</option>
+                    <option value="Magia">Magia</option>
+                    <option value="Aguante">Aguante</option>
+                </select>
+            </div>
+            <div id="textoPasivas" style="background:#1a1a1a; padding:12px; border-radius:4px; border:1px solid #444; min-height:60px; color:#ddd; font-size:0.9rem; line-height:1.6;">
+                <span style="color:#888;">Selecciona un stat para ver sus pasivas</span>
+            </div>
+        </div>
+
+                <div style="margin-top: 8px; display: flex; gap: 5px; align-items: center;">
+                    <select id="buffStat" style="flex: 1.5;">
+                        <option value="Fuerza">Fuerza</option>
+                        <option value="Destreza">Destreza</option>
+                        <option value="Percepcion">Percepcion</option>
+                        <option value="Inteligencia">Inteligencia</option>
+                        <option value="Magia">Magia</option>
+                        <option value="Aguante">Aguante</option>
+                    </select>
+                    <input type="number" id="buffVal" placeholder="+" style="flex: 0.5;">
+                    <button onclick="agregarBuff()" style="flex: 1; background: #27ae60;">Aplicar Buff</button>
+                </div>
+                <div style="margin-top: 4px; display: flex; gap: 5px; align-items: center;">
+                    <button onclick="aplicarDebuff()" style="width:auto;padding:4px 8px;font-size:0.75rem;background: #c0392b;">Aplicar Debuff</button>
+                </div>
+        </div>
+        </div>
+        
+        <div>
+            <div class="panel hover-panel" onclick="this.classList.toggle('active')">
+                                <h3>🛡️ Pasivas de Clase</h3>
+                <button class="skill-btn-tooltip" 
+                        data-tooltip="Cuando entras en Berserker y usas acción/habilidad, aliados en 10m reciben hasta fin de tu próxima ronda: • Ataque adicional con armas cuerpo a cuerpo • +Daño = tu Mod.Fue (mín +1)"
+                        onclick="event.stopPropagation()">🔥 Furia Contagiosa</button>
+                <button class="skill-btn-tooltip" 
+                        data-tooltip="Cada golpe cuerpo a cuerpo: tira 1d10, con 6-10 tu siguiente ataque +2 daño. Por cada turno consecutivo en melee el bono sube +1 (máx 4 turnos). En Berserker el bono inicial es +3"
+                        onclick="event.stopPropagation()">🗡️ Cuchilla de Furia</button>
+                <button class="skill-btn-tooltip" 
+                        data-tooltip="Cuando recibes daño: regeneras +3 PV por cada enemigo que te golpeó ese turno. En Berserker la regeneración aumenta 50%"
+                        onclick="event.stopPropagation()">🧪 Regeneración Química</button>
+                <button class="skill-btn-tooltip" 
+                        data-tooltip="MODO BERSERKER: núcleo sobrecargado. Cada golpe cuerpo a cuerpo emite explosión química, enemigos en 2m reciben +3 daño veneno"
+                        onclick="event.stopPropagation()">💥 Núcleo de Furia</button>
+            </div>
+<div class="panel hover-panel" onclick="this.classList.toggle('active')">
+                                <h3>⚙️ Mejoras Tecnológicas</h3>
+                <div style="font-size:11px; opacity:0.7; margin-bottom:8px;">Mantenimiento cada 3 días • Pueden romperse o extirparse</div>
+                
+                <div style="margin-bottom:10px;">
+                    <div style="font-weight:bold; color:#0f0; font-size:12px; margin-bottom:4px;">MEJORAS RHEA</div>
+                    <button class="skill-btn-tooltip" 
+                            data-tooltip="Columna mecánica. Ventaja en salvaciones vs derribo/empuje/parálisis. Berserk: +2 a salvaciones Agu/Fue/Des"
+                            onclick="event.stopPropagation()">🦴 Columna Vertebral</button>
+                    <button class="skill-btn-tooltip" 
+                            data-tooltip="Pinchos retráctiles (1/descanso corto, 1 min). Si te golpean: 1d8 perforante. Si fallan: 3d8. Berserk: +1d6 veneno, Salv Agu CD15 o envenenado 1d4 turnos"
+                            onclick="event.stopPropagation()">🔱 Erupción Pinchos</button>
+                </div>
+
+                <div style="margin-bottom:10px;">
+                    <div style="font-weight:bold; color:#2ecc71; font-size:12px; margin-bottom:4px;">BRAZO IZQUIERDO</div>
+                    <button class="skill-btn-tooltip" 
+                            data-tooltip="Ráfaga Plasma Quimtech (Acción). 30m, 6d8 químico/arcano. Berserk: usa Mod.Agu, daño 10d8. Riesgo: Salv Agu CD17 o ruptura"
+                            onclick="event.stopPropagation()">💥 Ráfaga Plasma</button>
+                    <button class="skill-btn-tooltip" 
+                            data-tooltip="Pulso Sináptico (Acción). Radio 10m, Salv Fue CD14 o 4d10 contundente/arcano + empuje 20m. Inutiliza Hextech 1d8 turnos. Berserk: CD20, bloquea magia 1 turno"
+                            onclick="event.stopPropagation()">🌊 Pulso Repulsión</button>
+                    <button class="skill-btn-tooltip" 
+                            data-tooltip="Canal Estabilización (Acción adicional). Cura 6d10+Mod.Agu, desventaja Fue con brazo 1 turno. Berserk: sacrifica cura como bonus daño próximo golpe (dura 1d4 turnos)"
+                            onclick="event.stopPropagation()">💚 Restauración</button>
+                </div>
+
+                <div style="margin-bottom:10px;">
+                    <div style="font-weight:bold; color:#4dabf7; font-size:12px; margin-bottom:4px;">PIERNA DERECHA</div>
+                    <button class="skill-btn-tooltip" 
+                            data-tooltip="Propulsión Saltos (3/descanso corto, mov). Salto x4 altura/distancia. Al caer: 3d6 a 5m. Berserk: x6, golpe gratuito"
+                            onclick="event.stopPropagation()">🚀 Salto Propulsado</button>
+                    <button class="skill-btn-tooltip" 
+                            data-tooltip="Propulsión Esquives (3/descanso corto, reacción). Reduce daño 1d10+Mod.Fue, mueve 15m sin provocar. Berserk: atacante Salv Agu CD13 o derribado"
+                            onclick="event.stopPropagation()">💨 Esquive Propulsado</button>
+                </div>
+
+                <div>
+                    <div style="font-weight:bold; color:#ffd43b; font-size:12px; margin-bottom:4px;">OJO DERECHO</div>
+                    <button class="skill-btn-tooltip" 
+                            data-tooltip="Lectura Firma Energética (acción adicional, 1 min). Ventaja Percepción, detecta invisibles por calor, ignora oscuridad"
+                            onclick="event.stopPropagation()">👁️ Firma Energética</button>
+                    <button class="skill-btn-tooltip" 
+                            data-tooltip="Vector Impacto (reacción, 3/descanso largo). +4 ataque a distancia/brazo izq, +1 dado daño si impacta"
+                            onclick="event.stopPropagation()">🎯 Vector Impacto</button>
+                    <button class="skill-btn-tooltip" 
+                            data-tooltip="Predicción Cinética (reacción, 2/descanso corto). +3 defensa, ventaja vs proyectiles"
+                            onclick="event.stopPropagation()">⚡ Predicción</button>
+                </div>
+            </div>
+            <div class="panel hover-panel" onclick="this.classList.toggle('active')">
+                <h3>💊 Recursos</h3>
+                <div onclick="event.stopPropagation();">
+                    <input type="number" id="valHeal" placeholder="Cantidad...">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top:4px;">
+                        <button class="btn-heal" onclick="curar()">VIDA</button>
+                        <button class="btn-shield" onclick="ponerEscudo()">ESCUDO</button>
+                        <button onclick="reforzar('arm')" style="background:#007a5e;">+ 🛡️ARM</button>
+                        <button onclick="reforzar('mr')" style="background:#d4ac0d;">+ ✨MR</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="panelConjuros" class="panel">
+                <h3>🔮 Conjuros (<span id="numConj"></span>/13)</h3>
+                <div style="display:flex; gap:4px; margin:8px 0;">
+                    <button onclick="gastarEspacio()" style="font-size:11px; padding:4px 8px; background:#444; color:white; border:1px solid #666; border-radius:4px; cursor:pointer;">-1 Espacio</button>
+                    <button onclick="descansoCorto()" style="font-size:11px; padding:4px 8px; background:#1e3a8a; color:white; border:1px solid #666; border-radius:4px; cursor:pointer;">Descanso Corto</button>
+                    <button onclick="descansoLargo()" style="font-size:11px; padding:4px 8px; background:#166534; color:white; border:1px solid #666; border-radius:4px; cursor:pointer;">Descanso Largo</button>
+                    <button onclick="potiMana()" style="font-size:11px; padding:4px 8px; background:#0a8f4e; color:white; border:1px solid #666; border-radius:4px; cursor:pointer;">Poti Maná</button>
+                </div>
+                <div id="orbes"></div>
+                <input type="number" id="numTaunt" value="0" min="0" style="margin: 4px 0;" placeholder="Enemigos provocados...">
+                <div id="skillsList"></div>
+                <button id="btnForma" onclick="cambiarForma()" style="background:#4b0082; margin-top:4px;">🔄 Activar Berserker</button>
+            </div>
+
+            <div class="panel">
+                <h3>💥 Daño / Turno</h3>
+                <div style="display: flex; gap: 4px;">
+                    <select id="tipoDmg" style="flex: 1;"><option>Físico</option><option>Mágico</option></select>
+                    <input type="number" id="cantDmg" placeholder="Daño..." style="flex: 1;">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 4px;">
+                    <button onclick="recibirDmg(false)" style="background: #a22;">RECIBIR</button>
+                    <button onclick="recibirDmg(true)" style="background: #00ff88;">DIRECTO</button>
+                </div>
+                <button onclick="modoDefensa()" style="background: #007a5e; margin-top: 4px;">🛡️ MODO DEFENSA</button>
+                <div class="total-dmg-box">
+                    <div id="totalRecibido" style="color: #00ff88; font-weight: bold;">0</div>
+                    <button onclick="resetDmgRecibido()" style="font-size: 0.6em; padding: 2px;">Limpiar Acumulado</button>
+                </div>
+            </div>
+
+            
+        <div class="panel" style="margin-top:10px; margin-bottom:10px;">
+            <h3>🛡️ Fase de Defensa</h3>
+            <div style="display:flex; gap:15px; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
+                <div style="display:flex; gap:10px; align-items:center;">
+                    <span style="font-weight:bold;">Defensa actual:</span>
+                    <span id="faseDefensaTexto" style="padding:4px 12px; background:#2c3e50; border-radius:4px; color:#00d4aa; font-weight:bold;">1º Defensa</span>
+                </div>
+                <button onclick="usarDefensa()" style="padding:6px 12px; background:#e67e22; color:white; border:none; border-radius:4px; cursor:pointer;">Usé Defensa</button>
+            </div>
+            <div id="descDefensa" style="background:#1a1a1a; padding:10px; border-radius:4px; border:1px solid #444; color:#ddd; font-size:0.85rem;">
+                <b>1º Defensa:</b> Utiliza tu modificador de estadística completo para defenderte
+            </div>
+            <div style="margin-top:8px; font-size:0.75rem; color:#888;">
+                Un PJ puede defenderse de cualquier cantidad de enemigos en su turno, pero cada tirada defensiva reduce su posibilidad de lograrlo.
+            </div>
+        </div>
+
+            
+<div style="display: flex; gap: 8px; margin: 8px 0;">
+    <button onclick="pasarTurno()" style="flex: 1; padding: 10px; background: #007a5e; color: white; border: none; border-radius: 4px; cursor: pointer;">
+        ⏭️ PASAR TURNO
+    </button>
+    <button onclick="resetCombate()" style="flex: 1; padding: 10px; background: #8e44ad; color: white; border: none; border-radius: 4px; cursor: pointer;">
+        🔄 RESET COMBATE
+    </button>
+</div>
+        </div>
+    </div>
+    <div class="panel" style="margin-top:12px;">
+        <h3>📜 Historial</h3>
+        <div id="log" class="log" style="font-size:1.05rem;line-height:1.6;min-height:200px;max-height:300px;overflow-y:auto;background:rgba(0,0,0,0.6);padding:8px;border-radius:6px;"></div>
+    </div>
+
+    <script>
+        let modo = "normal";
+        let turnoActual = 1;
+        let state = {
+            vida: 135, vidaMax: 135, arm: 0, mr: 0, esc: 0, rq: 0, conjuros: 13,
+            enemigosProvocados: 0, acumuladoDmg: 0,
+            estadosTemporales: [],
+            buffsStats: { Fuerza: 0, Destreza: 0, Percepcion: 0, Inteligencia: 0, Magia: 0, Aguante: 0 },
+            modsDirectos: { Fuerza: 0, Destreza: 0, Percepcion: 0, Inteligencia: 0, Magia: 0, Aguante: 0, },
+            mochila: [],
+            monedero: {},
+            baul: {}
+        
+        };
+        let modoDefensaActivo = false;
+
+        const baseStats = { Fuerza: 30, Destreza: 15, Percepcion: 10, Inteligencia: 11, Magia: 10, Aguante: 20, Suerte: 65 };
+        
+        const infoArmas = {
+            "hachas_desgarradoras": { dado: "1d10 Cortante + 1d4 Trueno + Mod. Fue", extra: "Versátil (+1d4 a 2 manos) | Desgarrando la Magia: desventaja en concentración, no puede Esconderse hasta tu próximo turno" },
+            "baston_titan": { dado: "1d8 Contundente + 1d6 Necrótico + Mod. Fue", extra: "Pesada (2 manos) | Foco Arcano | Golpe Atronador: acción, 4d6 Necrótico en 10m, Salv Fue CD13 o derribo" }
+        };
+
+        function getMod(val) {
+            const tabla = {1:-5,2:-4,3:-4,4:-3,5:-3,6:-2,7:-2,8:-1,9:-1,10:0,11:1,12:2,13:2,14:3,15:3,16:4,17:4,18:5,19:5,20:6,21:6,22:7,23:7,24:8,25:8,26:9,27:9,28:10,29:11,30:12};
+            if (val > 30) return 12 + (val - 30);
+            if (val < 1) return -5 + (val - 1);
+            return tabla[val] ?? 0;
+        }
+
+        function renderStats() {
+            const armaEquipada = document.getElementById("selArma").value;
+            const bonusArma = (infoArmas[armaEquipada] && infoArmas[armaEquipada].stats) || {};
+            let html = "<tr><th>Stat</th><th>Base</th><th>Buff</th><th>Eq.</th><th>Total</th><th>Mod.</th></tr>";
+            for (let s in baseStats) {
+                let buff = state.buffsStats[s] || 0;
+                let eq = bonusArma[s] || 0;
+                let total = baseStats[s] + buff + eq;
+                let modBase = getMod(total);
+                let modDirecto = state.modsDirectos[s] || 0;
+                let modFinal = modBase + modDirecto;
+                if (s === 'Suerte') {
+                    html += `<tr><td>${s}</td><td>${baseStats[s]}</td><td colspan="3" style="padding:2px;"><div style="display:flex;gap:4px;justify-content:center;"><button onclick="baseStats.Suerte=Math.max(0,baseStats.Suerte-5);renderStats();actualizarTodo()" style="width:32px;padding:2px;font-size:0.7rem;background:#c0392b">-5</button><button onclick="baseStats.Suerte+=5;renderStats();actualizarTodo()" style="width:32px;padding:2px;font-size:0.7rem;background:#27ae60">+5</button></div></td><td class="mod-val">${modFinal >= 0 ? '-' : modFinal}</td></tr>`;
+                } else {
+                    html += `<tr><td>${s}</td><td>${baseStats[s]}</td><td class="buff-val">${buff !== 0 ? (buff>0?'+'+buff:buff) : '-'}</td><td style="color: #00d4aa;">${eq > 0 ? '+'+eq : '-'}</td><td>${total}</td><td class="mod-val">${modFinal >= 0 ? '+' + modFinal : modFinal}${modDirecto !== 0 ? ' <span style="color:#ffd84c;font-size:0.8em">(' + (modDirecto>0?'+':'') + modDirecto + ')</span>' : ''}</td></tr>`;
+                }
+            }
+            document.getElementById("tablaStats").innerHTML = html;
+        }
+
+        function addMochila() {
+            const name = document.getElementById("itemName").value;
+            const stats = document.getElementById("itemStats").value;
+            if(!name) return;
+            state.mochila.push({ name, stats });
+            document.getElementById("itemName").value = "";
+            document.getElementById("itemStats").value = "";
+            renderMochila();
+        }
+
+        function renderMochila() {
+            const lista = document.getElementById("mochilaLista");
+            lista.innerHTML = state.mochila.map((item,i) => `<div class="item-entry"><div style="display:flex;justify-content:space-between"><b>${item.name}</b><span><button onclick="editarItem(${i})" style="width:auto;padding:2px 5px;background:#00d4aa;font-size:0.7em">✏️</button><button onclick="borrarItem(${i})" style="width:auto;padding:2px 5px;margin-left:3px;background:#c0392b;font-size:0.7em">🗑️</button></span></div><small style="color:#aaa">${item.stats}</small></div>`).join("");
+        }
+        function borrarItem(i){ state.mochila.splice(i,1); renderMochila(); }
+        function editarItem(i){ const it = state.mochila[i]; document.getElementById("itemName").value = it.name; document.getElementById("itemStats").value = it.stats; state.mochila.splice(i,1); renderMochila(); }
+
+        function normalizarTipo(t){ t = t.trim() || "Oro"; return t.charAt(0).toUpperCase() + t.slice(1).toLowerCase(); }
+        function guardarDinero() {
+            const cant = +document.getElementById("monedaCant").value || 0;
+            const tipo = normalizarTipo(document.getElementById("monedaTipo").value);
+            const enBaul = document.getElementById("chkBaul").checked;
+            if(cant <= 0) return;
+            if(enBaul){
+                state.baul[tipo] = (state.baul[tipo] || 0) + cant;
+            } else {
+                state.monedero[tipo] = (state.monedero[tipo] || 0) + cant;
+            }
+            document.getElementById("monedaCant").value = "";
+            renderMonedero();
+        }
+        function usarDinero() {
+            const cant = +document.getElementById("monedaCant").value || 0;
+            const tipo = normalizarTipo(document.getElementById("monedaTipo").value);
+            const enBaul = document.getElementById("chkBaul").checked;
+            if(cant <= 0) return;
+            if(enBaul){
+                state.baul[tipo] = Math.max(0, (state.baul[tipo] || 0) - cant);
+                if(state.baul[tipo] === 0) delete state.baul[tipo];
+            } else {
+                state.monedero[tipo] = Math.max(0, (state.monedero[tipo] || 0) - cant);
+                if(state.monedero[tipo] === 0) delete state.monedero[tipo];
+            }
+            document.getElementById("monedaCant").value = "";
+            renderMonedero();
+        }
+        function addMonedero() {
+            const cant = +document.getElementById("monedaCant").value || 0;
+            const tipo = document.getElementById("monedaTipo").value.trim() || "Oro";
+            if(cant <= 0) return;
+            state.monedero[tipo] = (state.monedero[tipo] || 0) + cant;
+            document.getElementById("monedaCant").value = "";
+            renderMonedero();
+        }
+
+        function renderMonedero() {
+            const div = document.getElementById("monederoLista");
+            let html = "";
+            html += Object.keys(state.monedero).map(tipo => `<div class="money-entry"><span>${tipo}:</span><span>${state.monedero[tipo]}</span><span style="margin-left:auto"><button onclick="modMoneda('${tipo}',-1)" style="width:auto;padding:0 4px;background:#c0392b">-</button><button onclick="modMoneda('${tipo}',1)" style="width:auto;padding:0 4px;margin-left:2px;background:#27ae60">+</button></span></div>`).join("");
+            html += Object.keys(state.baul).map(tipo => `<div class="money-entry"><span>${tipo}:</span><span>${state.baul[tipo]} <small style="color:#aaa">(Baúl)</small></span><span style="margin-left:auto"><button onclick="modBaul('${tipo}',-1)" style="width:auto;padding:0 4px;background:#c0392b">-</button><button onclick="modBaul('${tipo}',1)" style="width:auto;padding:0 4px;margin-left:2px;background:#27ae60">+</button></span></div>`).join("");
+            div.innerHTML = html;
+        }
+        function modMoneda(tipo,delta){ state.monedero[tipo] = Math.max(0,(state.monedero[tipo]||0)+delta); if(state.monedero[tipo]===0) delete state.monedero[tipo]; renderMonedero(); }
+        function modBaul(tipo,delta){ state.baul[tipo] = Math.max(0,(state.baul[tipo]||0)+delta); if(state.baul[tipo]===0) delete state.baul[tipo]; renderMonedero(); }
+
+        function borrarDatosMenu() {
+            state.mochila = []; state.monedero = {};
+            state.baul = {}; renderMochila(); renderMonedero();
+            log("Mochila y monedero vaciados.", "gray");
+        }
+
+                        function actualizarTodo() {
+            const arma = document.getElementById("selArma").value;
+            const info = infoArmas[arma];
+            const div = document.getElementById("infoArma");
+            if (div) {
+                div.innerHTML = info ? `🎲 Ataque: <b>${info.dado}</b><br><small>${info.extra}</small>` : "";
+            }
+            renderStats(); updateUI(); renderEstados();
+            document.getElementById("btnForma").innerText = (modo === "normal") ? "🔄 Activar Berserker" : "🔄 Desactivar Berserker";
+            renderSkills();
+        }
+
+function recibirDmg(esDirecto, esMagico = false) {
+    let d = Number(document.getElementById("cantDmg").value);
+    if (!d || d <= 0) return;
+
+    state.acumuladoDmg += d;
+    let tipo = esMagico ? "MÁGICO" : "FÍSICO";
+    log("💥 Daño " + tipo + " entrante: " + d, "yellow");
+
+    // 1. MODO DEFENSA
+    if (modoDefensaActivo && !esDirecto) {
+        let tirada = Math.floor(Math.random() * 20) + 1;
+        let modAguante = 0;
+        let aguanteTotal = baseStats.Aguante;
+        try {
+            const armaEq = document.getElementById("selArma").value;
+            const bonusArma = (infoArmas[armaEq] && infoArmas[armaEq].stats) || {};
+            const eqAguante = bonusArma.Aguante || 0;
+            const modDirecto = (state.modsDirectos && state.modsDirectos.Aguante) || 0;
+            aguanteTotal = baseStats.Aguante + state.buffsStats.Aguante + eqAguante + modDirecto;
+            modAguante = getMod(aguanteTotal);
+        } catch(e) {
+            modAguante = 0;
+        }
+        let mitigar = tirada + modAguante;
+        if (aguanteTotal >= 15) { mitigar = mitigar * 2; }
+        d = Math.max(0, d - mitigar);
+        log("🛡️ Modo Defensa mitigo " + mitigar + " [d20:" + tirada + "+" + modAguante + (aguanteTotal >= 15 ? " x2" : "") + "]. Queda: " + d, "cyan");
+    }
+
+    if (esDirecto) {
+        state.vida = Math.max(0, state.vida - d);
+        log("💀 Daño DIRECTO: " + d, "red");
+    } else {
+        // 2. ESCUDO
+        if (state.esc > 0 && d > 0) {
+            let absorbido = Math.min(state.esc, d);
+            state.esc = state.esc - absorbido;
+            d = d - absorbido;
+            log("💠 Escudo absorbió " + absorbido + ". Escudo: " + state.esc + " | Daño: " + d, "blue");
+        }
+        
+        // 3. ARMADURA o RM
+        if (esMagico) {
+            if (state.mr > 0 && d > 0) {
+                let absorbido = Math.min(state.mr, d);
+                state.mr = state.mr - absorbido;
+                d = d - absorbido;
+                log("🔮 RM absorbió " + absorbido + ". RM: " + state.mr + " | Daño: " + d, "purple");
+            }
+        } else {
+            if (state.arm > 0 && d > 0) {
+                let absorbido = Math.min(state.arm, d);
+                state.arm = state.arm - absorbido;
+                d = d - absorbido;
+                log("🛡️ Armadura absorbió " + absorbido + ". Armadura: " + state.arm + " | Daño: " + d, "gray");
+            }
+        }
+        
+        // 4. VIDA
+        if (d > 0) {
+            state.vida = Math.max(0, state.vida - d);
+            log("❤️ Daño a Vida: " + d, "orange");
+        } else {
+            log("✅ Daño totalmente mitigado", "green");
+        }
+    }
+
+    document.getElementById("cantDmg").value = "";
+    updateUI();
+}
+
+      function modoDefensa() {
+    modoDefensaActivo =!modoDefensaActivo;
+    if (modoDefensaActivo) {
+        log("🛡️ Modo Defensa ACTIVADO. Todos los daños tiran 1d20 + Mod.Agu para mitigar.");
+        document.querySelector('button[onclick="modoDefensa()"]').style.background = "#27ae60";
+    } else {
+        log("🛡️ Modo Defensa DESACTIVADO");
+        document.querySelector('button[onclick="modoDefensa()"]').style.background = "#007a5e";
+    }
+}
+
+        function pasarTurno() {
+            resetDefensa(); // Resetear fase de defensa al pasar turno
+            state.estadosTemporales.forEach(e => e.turnos--);
+            const expirados = state.estadosTemporales.filter(e => e.turnos <= 0);
+            expirados.forEach(e => {
+                if (e.nombre === "Taunt" && e.bonus) {
+                    state.modsDirectos.Aguante = Math.max(0, state.modsDirectos.Aguante - e.bonus);
+                    log(`Taunt expirado: -${e.bonus} AGU`, "gray");
+                }
+                if (e.nombre === "Dominio" && e.bonus) {
+                    state.modsDirectos.Fuerza = Math.max(0, state.modsDirectos.Fuerza - e.bonus);
+                    log(`Dominio expirado: -${e.bonus} FUE`, "gray");
+                }
+                if (e.nombre === "Furia Imparable" && e.bonus) {
+                    state.modsDirectos.Destreza = Math.max(0, state.modsDirectos.Destreza - e.bonus);
+                    log(`Furia Imparable expirada: -${e.bonus} DES`, "gray");
+                }
+            });
+            state.estadosTemporales = state.estadosTemporales.filter(e => e.turnos > 0);
+            turnoActual++;
+            log(`--- TURNO ${turnoActual} ---`, "white");
+            actualizarTodo();
+        }
+
+        function resetSistema() {
+            resetDefensa(); // Resetear fase de defensa al resetear combate
+            state.vida = 135; state.vidaMax = 135; state.arm = 0; state.mr = 0; state.esc = 0;
+            state.rq = 0; state.conjuros = 13; state.enemigosProvocados = 0; state.acumuladoDmg = 0;
+            state.estadosTemporales = [];
+            state.buffsStats = { Fuerza: 0, Destreza: 0, Percepcion: 0, Inteligencia: 0, Magia: 0, Aguante: 0, Suerte: 0 };
+            state.modsDirectos = { Fuerza: 0, Destreza: 0, Percepcion: 0, Inteligencia: 0, Magia: 0, Aguante: 0, Suerte: 0  };
+            turnoActual = 1; modo = "normal";
+            document.getElementById("panelConjuros").classList.remove("avatar-active");
+            document.getElementById("log").innerHTML = "";
+            actualizarTodo();
+            log("Tracker de combate reiniciado.", "yellow");
+        }
+        function resetCombate(){ resetSistema(); }
+
+        function updateUI() {
+            document.getElementById("vida").innerText = state.vida;
+            document.getElementById("esc").innerText = state.esc;
+            document.getElementById("arm").innerText = state.arm;
+            document.getElementById("mr").innerText = state.mr;
+            document.getElementById("valRQ").innerText = state.rq;
+            document.getElementById("numConj").innerText = state.conjuros;
+            document.getElementById("totalRecibido").innerText = state.acumuladoDmg;
+            let h = "";
+            for (let i = 0; i < 13; i++) h += `<span class="orbe ${i < state.conjuros ? '' : 'vacio'}"></span>`;
+            document.getElementById("orbes").innerHTML = h;
+            renderSkills();
+        }
+
+        // --- ACTUALIZACIÓN DE PODERES Y DADOS ---
+        function renderSkills() {
+            let skills = modo === "normal" ? [
+                ['Golpe de Titanio', 2, 'Radio 10m, 2d10+Fue, aturde'],
+                ['Estampida Química', 3, 'Carga 60m, 4d8+Fue, estela veneno'],
+                ['Furia Imparable', 4, '+5 Des (3t), aura veneno'],
+                ['Coloso Desbocado', 5, 'Transformación, área 10m, 6t']
+            ] : [
+                ['Golpe de Titanio', 2, 'Radio 10m, 2d10+Fue, aturde (Berserker)'],
+                ['Estampida Química', 3, 'Carga 120m, 6d8+Fue, estela'],
+                ['Furia Imparable', 4, '+5 Des (3t), aura, escudo 10'],
+                ['Coloso Desbocado', 5, 'Coloso + Berserker activo']
+            ];
+
+            const descripcionesCompletas = {
+                "Golpe de Titanio": `Nivel 2 - Acción adicional
+Golpeas el suelo con fuerza titánica. Radio 10m.
+• Salvación Destreza CD 8+Mod.Fue
+• Fallo: 2d10+Mod.Fue contundente + aturdido hasta tu próximo turno
+• Éxito: mitad de daño
+MODO BERSERKER: -1d20 ARM y MR a enemigos afectados
+Consume 2 Espacios`,
+                "Estampida Química": `Nivel 3 - Carga imparable
+Te mueves 60m en línea recta, ignoras terreno difícil.
+• Enemigos en camino: empujados 20m, derribados, 4d8+Mod.Fue
+• Estela tóxica 5m ancho: Salv Con CD15 o 2d6 veneno al entrar/empezar turno
+MODO BERSERKER: carga 120m, daño 6d8
+Consume 3 Espacios`,
+                "Furia Imparable": `Nivel 4 - Furia con gas tóxico (3 turnos)
+• +5 Destreza (dura 3 turnos, luego se pierde)
+• +2 daño cuerpo a cuerpo
+• Aura 20m: Salv Con o 2d6 veneno (mitad con éxito)
+MODO BERSERKER: escudo temporal 10 PG
+Consume 4 Espacios`,
+                "Coloso Desbocado": `Nivel 5 - Transformación (6 turnos)
+• Tamaño +1, alcance +10m
+• Ataques: +1d10 daño y afectan radio 10m
+• Movimiento duplicado
+• Vida temporal = 3x Mod.Agu
+• Activa MODO BERSERKER automáticamente
+Consume 5 Espacios`
+            };
+            
+            document.getElementById("skillsList").innerHTML = skills.map(s => {
+                let nombre = s[0];
+                let desc = descripcionesCompletas[nombre] || s[2];
+                return `<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                    <button class="skill-btn-tooltip"
+                            data-tooltip="${desc}"
+                            onclick="event.stopPropagation(); ejecutarHabilidad('${s[0]}', ${s[1]})"
+                            style="flex: 1.2;  border-bottom: 1px dotted #888;">${nombre} (${s[1]}🔮)</button>
+                    <span style="font-size: 0.75rem; color: #ffd84c; flex: 0.8; font-style: italic; white-space: nowrap;">🎲 ${s[2]}</span>
+                </div>`;
+            }).join("");
+            
+            // Tooltip custom que no bloquea el navegador
+            if (!document.getElementById('tooltip-div')) {
+                let tip = document.createElement('div');
+                tip.id = 'tooltip-div';
+                tip.className = 'tooltip-custom';
+                document.body.appendChild(tip);
+                
+                document.addEventListener('mouseover', function(e) {
+                    if (e.target.classList.contains('skill-btn-tooltip')) {
+                        tip.textContent = e.target.dataset.tooltip;
+                        tip.style.display = 'block';
+                    }
+                });
+                
+                document.addEventListener('mousemove', function(e) {
+                    if (tip.style.display === 'block') {
+                        tip.style.left = (e.clientX + 15) + 'px';
+                        tip.style.top = (e.clientY + 15) + 'px';
+                    }
+                });
+                
+                document.addEventListener('mouseout', function(e) {
+                    if (e.target.classList.contains('skill-btn-tooltip')) {
+                        tip.style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        function ejecutarHabilidad(nom, coste) {
+            if (state.conjuros >= coste) {
+                state.conjuros -= coste;
+                if (nom === "Taunt" || nom === "Dominio") {
+                    state.enemigosProvocados = +document.getElementById("numTaunt").value || 0;
+                    if (nom === "Taunt") {
+                        let bonus = state.enemigosProvocados * 2;
+                        state.modsDirectos.Aguante += bonus;
+                        state.estadosTemporales.push({ nombre: nom, turnos: 2, bonus: bonus });
+                        log(`Usado: Taunt. Provocados: ${state.enemigosProvocados}. +${bonus} AGU (2 por enemigo).`, "cyan");
+                    } else {
+                        let bonus = state.enemigosProvocados * 3;
+                        state.modsDirectos.Fuerza += bonus;
+                        state.estadosTemporales.push({ nombre: nom, turnos: 2, bonus: bonus });
+                        log(`Usado: Dominio Carmesí. Provocados: ${state.enemigosProvocados}. +${bonus} FUE (3 por enemigo).`, "cyan");
+                    }
+                }
+                if (nom === "Exilio") {
+                    state.arm += 15; state.mr += 15;
+                    state.estadosTemporales.push({ nombre: "Exilio (Bonus)", turnos: 2 });
+                    log("Exilio: +15 Armadura y MR por 2 turnos.", "gold");
+                }
+                if (nom === "Efigie" || nom === "Avatar") {
+                    log(`${nom} invocado. Consulta descripción para efectos de área.`, "magenta");
+                }
+                if (nom === "Furia Imparable") {
+                    state.modsDirectos.Destreza += 5;
+                    state.estadosTemporales.push({ nombre: nom, turnos: 3, bonus: 5 });
+                    log(`Furia Imparable activada: +5 DES por 3 turnos. Aura tóxica 20m activa.`, "cyan");
+                }
+                log(`Usado: ${nom} (-${coste}🔮)`, "cyan");
+                actualizarTodo();
+            } else {
+                log("No tienes suficientes espacios de conjuros.", "red");
+            }
+        }
+
+        function renderEstados() {
+            const el = document.getElementById("listaEstados");
+            if (!el) return;
+            el.innerHTML = state.estadosTemporales.map(e => 
+                `<div class="status-tag"><span><b>${e.nombre}</b></span><span>⏳ ${e.turnos}t</span></div>`).join("");
+        }
+
+        function log(m, c) { const l = document.getElementById("log"); l.innerHTML = `<div style="color:${c}">> ${m}</div>` + l.innerHTML; }
+        function curar() { state.vida = Math.min(state.vidaMax, state.vida + (+document.getElementById("valHeal").value || 0)); updateUI(); }
+        function ponerEscudo() { state.esc += (+document.getElementById("valHeal").value || 0); updateUI(); }
+        function reforzar(t) { state[t] += (+document.getElementById("valHeal").value || 0); updateUI(); }
+        function addRQ(n) { state.rq = Math.min(3, state.rq + n); updateUI(); }
+        function usarRQ() { state.rq = 0; log("🔥 INFERNO", "red"); updateUI(); }
+        
+        function activarFervor() { 
+            state.buffsStats.Fuerza += 2; 
+            state.buffsStats.Destreza += 2; 
+            actualizarTodo(); 
+            log("Fervor Activo (+2 FUE/DES)", "purple"); 
+        }
+
+        function fortificacion() {
+            if (!state.fortificacionActiva) {
+                state.buffsStats.Fuerza += 3;
+                state.fortificacionActiva = true;
+                actualizarTodo();
+                log("⚔️ Fortificación ACTIVADA: +3 FUE", "purple");
+            } else {
+                state.buffsStats.Fuerza -= 3;
+                state.fortificacionActiva = false;
+                actualizarTodo();
+                log("⚔️ Fortificación DESACTIVADA: -3 FUE", "gray");
+            }
+        }
+
+        function saltoProteccion() {
+            log("🛡️ Usaste Pasiva: Salto de protección. Saltas hacia un aliado en peligro, absorbes el impacto y mitigas 3 + Mod.Agu del daño.", "blue");
+        }
+
+        function resistenciaDano() {
+            let bonus = Math.floor(Math.random() * 8) + 1 + 3;
+            log(`🎲 Resistencia al daño: Mitigas ${bonus} de daño físico como reacción.`, "green");
+        }
+
+        function posturaInquebrantable() {
+            log("🗿 Usaste Pasiva: Postura Inquebrantable. +3 a tiradas para resistir empujes, derrumbes, o sostener estructuras.", "brown");
+        }
+
+        function activarSangre() { state.vida = Math.min(state.vidaMax, state.vida + 15); updateUI(); log("Sangre Darkin: +15 HP", "red"); }
+        
+        function mitigacionPasiva() { 
+            let bonus = Math.floor(Math.random() * 8) + 1 + 3;
+            if (state.vida < state.vidaMax) state.vida = Math.min(state.vidaMax, state.vida + bonus);
+            else state.esc += bonus;
+            log(`🎲 Mitigación Pasiva: +${bonus}`, "green");
+            updateUI(); 
+        }
+
+        function cambiarForma() { 
+            modo = (modo === "normal") ? "darkin" : "normal"; 
+            const panel = document.getElementById("panelConjuros");
+            if(modo === "darkin") panel.classList.add("avatar-active");
+            else panel.classList.remove("avatar-active");
+            actualizarTodo(); 
+        }
+
+        function agregarBuff() { const stat = document.getElementById("buffStat").value; const val = (+document.getElementById("buffVal").value || 0); state.buffsStats[stat] += val; actualizarTodo(); log(`Buff aplicado: +${val} ${stat}`, "green"); }
+        function aplicarDebuff() { const stat = document.getElementById("buffStat").value; const val = (+document.getElementById("buffVal").value || 0); state.buffsStats[stat] -= val; actualizarTodo(); log(`Debuff aplicado: -${val} ${stat}`, "red"); }
+        
+        function cargarEquipo() {
+            const armor = document.getElementById("selArmor").value;
+            state.arm = 0;
+            state.mr = (armor === "capa_cobertura") ? 20 : 0;
+            const infoDiv = document.getElementById("infoArmor");
+            if (armor === "capa_cobertura") {
+                infoDiv.innerHTML = `<b>Capa Cobertura Excéntrica (Rara)</b><br>• Armadura Total: 20 Resistencia Mágica<br>• <span style="color:#00ff88">Protección Especial:</span> Inmune al daño de ácido`;
+            } else {
+                infoDiv.innerHTML = "";
+            }
+            actualizarTodo();
+        }
+        function resetDmgRecibido() { state.acumuladoDmg = 0; updateUI(); }
+
+        actualizarTodo();
+    
+        function gastarEspacio(){
+            if(state.conjuros > 0){
+                state.conjuros--;
+                log(`Espacio gastado: -1 (${state.conjuros}/13)`, "orange");
+                actualizarTodo();
+                localStorage.setItem("trackerState", JSON.stringify(state));
+            } else {
+                alert("No te quedan espacios de conjuro");
+            }
+        }
+        
+        function descansoCorto(){
+            let recuperar = 7;
+            let antes = state.conjuros;
+            state.conjuros = Math.min(13, state.conjuros + recuperar);
+            let real = state.conjuros - antes;
+            if(real > 0){
+                log(`Descanso corto: +${real} espacios (${state.conjuros}/13)`, "cyan");
+                actualizarTodo();
+                localStorage.setItem("trackerState", JSON.stringify(state));
+            } else {
+                alert("Ya tienes todos los espacios");
+            }
+        }
+        
+        function descansoLargo(){
+            if(state.conjuros < 13){
+                state.conjuros = 13;
+                log(`Descanso largo: espacios completos (13/13)`, "lime");
+                actualizarTodo();
+                localStorage.setItem("trackerState", JSON.stringify(state));
+            } else {
+                alert("Ya tienes todos los espacios");
+            }
+        }
+        
+        function potiMana(){
+            let cant = prompt("¿Cuántos espacios de conjuro recupera la poción?");
+            if(cant === null) return;
+            cant = parseInt(cant);
+            if(isNaN(cant) || cant <= 0){
+                alert("Ingresa un número válido mayor a 0");
+                return;
+            }
+            let antes = state.conjuros;
+            state.conjuros = Math.min(13, state.conjuros + cant);
+            let real = state.conjuros - antes;
+            if(real > 0){
+                log(`Poción de maná: +${real} espacios (${state.conjuros}/13)`, "purple");
+                actualizarTodo();
+                localStorage.setItem("trackerState", JSON.stringify(state));
+            } else {
+                alert("Ya tienes todos los espacios");
+            }
+        }
+
+    
+        
+        const descripcionesPoderes = {
+            // ERKS - ZAUN
+            "Golpe de Titanio": `Nivel 2 - Acción adicional: Golpe de Titanio
+Como acción adicional golpeas el suelo o enemigo cercano con fuerza titánica, afecta radio 10m.
+
+Daño: Salvación Destreza CD 8 + Mod.Fue. Fallo: 2d10 + Mod.Fue contundente y aturdidos hasta final de tu próximo turno. Éxito: mitad de daño.
+
+Pros: MODO BERSERKER: enemigos también sufren -1d20 ARM y MR
+Limitaciones: Consume 2 Espacios de Habilidad`,
+            "Estampida Química": `Nivel 3 - Acción: Estampida Química
+Te impulsas en carga imparable dejando estela química.
+
+Efecto: Movimiento 60m línea recta, ignoras terreno difícil. Criaturas en camino: salvación o son empujadas 20m, derribadas y reciben 4d8 + Mod.Fue contundente.
+
+Estela Tóxica: rastro 5m ancho. Quien entre o empiece turno: Salv Con CD15, fallo 2d6 veneno.
+
+Pros: MODO BERSERKER: carga 120m y daño aumenta a 6d8
+Limitaciones: Consume 3 Espacios de Habilidad`,
+            "Furia Imparable": `Nivel 4 - Acción: Furia Imparable
+Te envuelves en furia pura con nube de gas tóxico.
+
+Beneficios (3 turnos):
+- Velocidad: +5 Destreza (3 turnos, luego se va)
+- Daño: +2 a ataques cuerpo a cuerpo
+- Aura tóxica 20m: Salv Con o 2d6 veneno (mitad con éxito)
+
+Pros: MODO BERSERKER: obtienes escudo temporal de 10 PG
+Limitaciones: Consume 4 Espacios - Duración 3 Turnos`,
+            "Coloso Desbocado": `Nivel 5 - Acción adicional: Coloso Desbocado
+Te transformas en coloso imponente.
+
+Efectos:
+- Tamaño +1 categoría, alcance +10m
+- Ataques cuerpo a cuerpo: +1d10 daño adicional y afectan radio 10m
+- Movimiento duplicado
+- Vida temporal = 3x Mod.Agu al inicio
+- Obtienes beneficios MODO BERSERKER
+
+Limitaciones: Consume 5 Espacios - Duración 6 Turnos`
+        };
+        function aplicarTooltipsPoderes(){
+            // Busca elementos que contengan SOLO el nombre del poder como texto
+            Object.keys(descripcionesPoderes).forEach(nombre => {
+                const xpath = `//*[text()='${nombre}']`;
+                const result = document.evaluate(xpath, document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+                
+                for(let i = 0; i < result.snapshotLength; i++){
+                    const el = result.snapshotItem(i);
+                    if(el.classList.contains('tooltip-wrapper') || el.closest('.tooltip-wrapper')) continue;
+                    
+                    const wrapper = document.createElement('span');
+                    wrapper.className = 'tooltip-wrapper';
+                    wrapper.textContent = nombre;
+                    
+                    const tip = document.createElement('span');
+                    tip.className = 'tooltip-text';
+                    let desc = descripcionesPoderes[nombre];
+                    desc = desc.replace(/Pros:/g, '<span class="pros">Pros:</span>');
+                    desc = desc.replace(/Contras:/g, '<span class="contras">Contras:</span>');
+                    desc = desc.replace(/Avatar:/g, '<span class="avatar">Avatar:</span>');
+                    tip.innerHTML = desc;
+                    wrapper.appendChild(tip);
+                    
+                    el.parentNode.replaceChild(wrapper, el);
+                }
+            });
+        }
+        
+        if(document.readyState === 'loading'){
+            document.addEventListener('DOMContentLoaded', () => setTimeout(aplicarTooltipsPoderes, 800));
+        } else {
+            setTimeout(aplicarTooltipsPoderes, 800);
+        }
+        
+        const actualizarTodoOrig = actualizarTodo;
+        actualizarTodo = function(){
+            actualizarTodoOrig.apply(this, arguments);
+            setTimeout(aplicarTooltipsPoderes, 300);
+        }
+
+
+    </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+        const desc = {'Taunt': 'Nivel 1 - Cono 20m, Salv. Perc CD 15, 2 turnos. +2 Mod.Agu por enemigo provocado. Acción adicional: Modo Defensa. Consume 1 Espacio. Necesita escudo.', 'Prot. Fugaz': 'Nivel 2 - Reacción, barrera 1d20+Fue+Agu. Acción adicional mejora +1d20 por 1 Espacio extra. Consume 2 Espacios. Necesita escudo.', 'Glifo': 'Nivel 3 - Reacción, Éxtasis 1 turno + cura 1d20+Agu. Segunda chance si derrota enemigo. Consume 3 Espacios. 1 vez por aliado.', 'Exilio': 'Nivel 4 - Acción adicional, toca enemigo. -15 Arm/MR enemigo, +15 Arm/MR para ti por 2 turnos. Consume 3 Espacios.', 'Efigie': 'Nivel 5 - Domo 20m, duración Mod.Fue turnos. Daño 5d20+Fue, alcance 40m/20m. Cura aliados 1d12+Agu/turno. Inmune proyectiles. Consume 5 Espacios.', 'Sobrecarga': 'Nivel 1 - Acción, devuelve daño x2 con ventaja. Acumula hasta Mod.Agu daño. Avatar: Mod.Agu x2. Consume 1 Espacio.', 'Égida': 'Nivel 2 - Acción adicional, barrera 1d20+Fue+Agu. Al romperse: aliado +3 ataque, tú +1 Fue temporal. Consume 2/3 Espacios.', 'Dominio': 'Nivel 4 - Acción, cono 40m Salv.Perc CD 18, 2 turnos. +3 Fue por enemigo taunteado. Avatar: +Fue permanente. Consume 4 Espacios.', 'Efigie Darkin': 'Nivel 5 - Acción, Avatar 20m alto. Daño 8d20+Fue, HP 300. Aliados 10m: +5 ataque o robo vida 50%. Consume 5 Espacios.'};
+        document.querySelectorAll('button').forEach(btn => {
+            const txt = btn.textContent.trim();
+            if(txt in desc){
+                btn.title = desc[txt];
+                
+            }
+        });
+    }, 1000);
+});
+</script>
+
+<script>
+// parche historial
+(function(){
+    window._lastPct = 100;
+    const _origRecibir = window.recibirDmg;
+    window.recibirDmg = function(a,b){
+        _origRecibir(a,b);
+        try{
+            var pct = state.vidaMax? Math.floor(state.vida/state.vidaMax*100):0;
+            if(window._lastPct>75 && pct<=75) log("⚠️ Vida bajo 75% ("+state.vida+"/"+state.vidaMax+")","orange");
+            if(window._lastPct>50 && pct<=50) log("⚠️ Vida bajo 50% ("+state.vida+"/"+state.vidaMax+")","orange");
+            if(window._lastPct>25 && pct<=25) log("⚠️ Vida bajo 25% ("+state.vida+"/"+state.vidaMax+")","orange");
+            if(window._lastPct>10 && pct<=10) log("⚠️ Vida bajo 10% ("+state.vida+"/"+state.vidaMax+")","orange");
+            if(window._lastPct>0 && pct<=0) log("💀 ¡Has muerto!","red");
+            window._lastPct = pct;
+            log("📊 Estado: Vida "+state.vida+" | ARM "+state.arm+" | RM "+state.mr+" | ESC "+state.esc,"cyan");
+        }catch(e){console.error(e)}
+    };
+    const _origReset = window.resetSistema;
+    window.resetSistema = function(){
+        _origReset();
+        window._lastPct = 100;
+    };
+})();
+</script>
+</body>
+</html>
