@@ -1,43 +1,110 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Trackers</title>
 
 <style>
+
 body{
-    background:#111;
+    margin:0;
+    background:#0b0b0f;
+    font-family:Arial, sans-serif;
     color:white;
-    font-family:Arial;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    min-height:100vh;
+}
+
+.container{
+    width:100%;
+    max-width:700px;
+    padding:40px;
+    box-sizing:border-box;
+}
+
+h1{
     text-align:center;
-    padding-top:50px;
+    margin-bottom:40px;
+    font-size:42px;
+    letter-spacing:2px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
 }
 
 a{
-    display:block;
-    margin:20px auto;
-    width:300px;
-    padding:15px;
-    background:#222;
-    color:white;
+    background:#16161d;
+    border:1px solid #2a2a35;
+
+    border-radius:14px;
+
+    padding:25px;
+
+    text-align:center;
+
     text-decoration:none;
-    border-radius:10px;
-    font-size:20px;
+    color:white;
+
+    font-size:22px;
+    font-weight:bold;
+
+    transition:0.2s;
 }
 
 a:hover{
-    background:#444;
+    transform:translateY(-3px);
+    background:#23232d;
+    border-color:#555;
+}
+
+@media(max-width:700px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    h1{
+        font-size:32px;
+    }
+
 }
 </style>
 </head>
 
 <body>
 
-<h1>Mis Trackers</h1>
+<div class="container">
 
-<a href="sarato.html">Sarato Tracker</a>
-<a href="claire.html">Claire Tracker</a>
-<a href="demon.html">Demon Tracker</a>
+    <h1>Character Trackers</h1>
+
+    <div class="grid">
+
+        <a href="sarato.html">Sarato</a>
+
+        <a href="ethan.html">Ethan</a>
+
+        <a href="elizabeth.html">Elizabeth</a>
+
+        <a href="claire.html">Claire</a>
+
+        <a href="baldor.html">Baldor</a>
+
+        <a href="erks.html">Erk's</a>
+
+    </div>
+
+</div>
 
 </body>
 </html>
+```
