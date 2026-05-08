@@ -1,140 +1,73 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Tales of Runaterra</title>
 
+<!-- Para que el link muestre la imagen correcta -->
+<meta property="og:title" content="Tales of Runaterra">
+<meta property="og:description" content="Elige tu tracker">
+<meta property="og:image" content="img/imgrunaterra_menu.webp">
+<meta property="og:type" content="website">
+
 <style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
+*{margin:0;padding:0;box-sizing:border-box}
 body{
-
-    min-height:100vh;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    background-image: url('img/imgrunaterra_menu.webp');
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-
-    overflow:hidden;
-
-    font-family:Georgia, serif;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#0a0e14;
+  font-family:Georgia,serif;
 }
-
 .overlay{
-
-    position:relative;
-
-    width:100%;
-    max-width:700px;
-    height:900px;
+  position:relative;
+  width:95vw;
+  max-width:1100px;
+  aspect-ratio:1834/967; /* proporción exacta de tu imagen */
+  background-image:url('img/imgrunaterra_menu.webp'); /* CAMBIA a .png si tu archivo es png */
+  background-size:contain;
+  background-position:center;
+  background-repeat:no-repeat;
 }
-
-/* BOTONES */
-
 .character{
-
-    position:absolute;
-
-    left:50%;
-    transform:translateX(-50%);
-
-    width:470px;
-    height:72px;
-
-    border-radius:14px;
-
-    cursor:pointer;
-
-    transition:0.25s;
-
-    background:rgba(255,255,255,0);
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  width:37%;
+  height:12.5%;
+  cursor:pointer;
+  background:transparent;
+  border-radius:12px;
+  transition:.2s;
 }
-
 .character:hover{
-
-    background:rgba(214,179,106,0.12);
-
-    box-shadow:
-    0 0 20px rgba(214,179,106,0.35);
+  background:rgba(214,179,106,.12);
+  box-shadow:0 0 18px rgba(214,179,106,.35);
 }
 
-/* POSICIONES */
+/* Posiciones calibradas sobre TU imagen */
+.sarato{top:17.8%}
+.ethan{top:31.5%}
+.elizabeth{top:45.5%}
+.claire{top:60.2%}
+.baldor{top:74.8%}
+.erks{top:89.2%}
 
-.sarato{
-    top:285px;
+@media(max-width:600px){
+  .character{height:13.5%}
 }
-
-.ethan{
-    top:392px;
-}
-
-.elizabeth{
-    top:500px;
-}
-
-.claire{
-    top:608px;
-}
-
-.baldor{
-    top:716px;
-}
-
-.erks{
-    top:823px;
-}
-
-@media(max-width:900px){
-
-    .overlay{
-
-        transform:scale(0.8);
-    }
-
-}
-
-@media(max-width:700px){
-
-    .overlay{
-
-        transform:scale(0.6);
-    }
-
-}
-
 </style>
 </head>
-
 <body>
-
-<div class="overlay">
-
-    <a href="sarato.html" class="character sarato"></a>
-
-    <a href="ethan.html" class="character ethan"></a>
-
-    <a href="elizabeth.html" class="character elizabeth"></a>
-
-    <a href="claire.html" class="character claire"></a>
-
-    <a href="baldor.html" class="character baldor"></a>
-
-    <a href="erks.html" class="character erks"></a>
-
-</div>
-
+  <div class="overlay">
+    <a href="sarato.html" class="character sarato" aria-label="Sarato"></a>
+    <a href="ethan.html" class="character ethan" aria-label="Ethan"></a>
+    <a href="elizabeth.html" class="character elizabeth" aria-label="Elizabeth"></a>
+    <a href="claire.html" class="character claire" aria-label="Claire"></a>
+    <a href="baldor.html" class="character baldor" aria-label="Baldor"></a>
+    <a href="erks.html" class="character erks" aria-label="Erk's"></a>
+  </div>
 </body>
 </html>
