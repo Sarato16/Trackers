@@ -1,73 +1,144 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tales of Runaterra</title>
-
-<!-- Para que el link muestre la imagen correcta -->
-<meta property="og:title" content="Tales of Runaterra">
-<meta property="og:description" content="Elige tu tracker">
-<meta property="og:image" content="img/imgrunaterra_menu.webp">
-<meta property="og:type" content="website">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Botón Fantasy</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
 body{
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:#0a0e14;
-  font-family:Georgia,serif;
-}
-.overlay{
-  position:relative;
-  width:95vw;
-  max-width:1100px;
-  aspect-ratio:1834/967; /* proporción exacta de tu imagen */
-  background-image:url('img/imgrunaterra_menu.webp'); /* CAMBIA a .png si tu archivo es png */
-  background-size:contain;
-  background-position:center;
-  background-repeat:no-repeat;
-}
-.character{
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  width:37%;
-  height:12.5%;
-  cursor:pointer;
-  background:transparent;
-  border-radius:12px;
-  transition:.2s;
-}
-.character:hover{
-  background:rgba(214,179,106,.12);
-  box-shadow:0 0 18px rgba(214,179,106,.35);
+    background:#0b1118;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+    font-family: "Georgia", serif;
 }
 
-/* Posiciones calibradas sobre TU imagen */
-.sarato{top:17.8%}
-.ethan{top:31.5%}
-.elizabeth{top:45.5%}
-.claire{top:60.2%}
-.baldor{top:74.8%}
-.erks{top:89.2%}
+/* BOTÓN */
+.fantasy-button{
+    position:relative;
+    width:340px;
+    height:72px;
 
-@media(max-width:600px){
-  .character{height:13.5%}
+    background:
+        linear-gradient(
+            180deg,
+            #102131 0%,
+            #08131f 100%
+        );
+
+    border:2px solid #8b6a3f;
+    clip-path:polygon(
+        18px 0,
+        calc(100% - 18px) 0,
+        100% 18px,
+        100% calc(100% - 18px),
+        calc(100% - 18px) 100%,
+        18px 100%,
+        0 calc(100% - 18px),
+        0 18px
+    );
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#c89b5d;
+    font-size:36px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+
+    box-shadow:
+        inset 0 0 15px rgba(255,255,255,0.03),
+        0 0 12px rgba(0,0,0,0.6);
+
+    overflow:hidden;
+    cursor:pointer;
+    transition:0.25s ease;
+}
+
+/* Brillo interno */
+.fantasy-button::before{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,0.08),
+            transparent 40%
+        );
+
+    pointer-events:none;
+}
+
+/* Borde decorativo interno */
+.fantasy-button::after{
+    content:"";
+    position:absolute;
+    inset:6px;
+
+    border:1px solid rgba(201,155,93,0.35);
+
+    clip-path:polygon(
+        12px 0,
+        calc(100% - 12px) 0,
+        100% 12px,
+        100% calc(100% - 12px),
+        calc(100% - 12px) 100%,
+        12px 100%,
+        0 calc(100% - 12px),
+        0 12px
+    );
+
+    pointer-events:none;
+}
+
+/* ICONO */
+.fantasy-button .icon{
+    position:absolute;
+    left:18px;
+
+    width:42px;
+    height:42px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#c89b5d;
+    font-size:26px;
+    text-shadow:0 0 6px rgba(255,215,150,0.4);
+}
+
+/* Hover */
+.fantasy-button:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+        inset 0 0 18px rgba(255,255,255,0.05),
+        0 0 18px rgba(200,155,93,0.15);
+}
+
+/* Click */
+.fantasy-button:active{
+    transform:scale(0.98);
 }
 </style>
 </head>
+
 <body>
-  <div class="overlay">
-    <a href="sarato.html" class="character sarato" aria-label="Sarato"></a>
-    <a href="ethan.html" class="character ethan" aria-label="Ethan"></a>
-    <a href="elizabeth.html" class="character elizabeth" aria-label="Elizabeth"></a>
-    <a href="claire.html" class="character claire" aria-label="Claire"></a>
-    <a href="baldor.html" class="character baldor" aria-label="Baldor"></a>
-    <a href="erks.html" class="character erks" aria-label="Erk's"></a>
+
+<button class="fantasy-button">
+    <span class="icon">🛡</span>
+    SARATO
+</button>
+
+</body>
+</html>
   </div>
 </body>
 </html>
