@@ -1,82 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
 
-.btn-sarato-css {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 320px;
-  height: 64px;
-  padding: 0 40px 0 85px;
-  background: linear-gradient(180deg, #1e2a36 0%, #0d141b 100%);
-  border: 2px solid #8a6f3a;
-  cursor: pointer;
-  font-family: 'Cinzel', serif;
-  font-size: 28px;
-  font-weight: 600;
-  letter-spacing: 3px;
-  color: #d4af6a;
-  text-shadow: 0 0 10px rgba(212, 175, 106, 0.8), 
-               0 2px 3px rgba(0, 0, 0, 1);
-  box-shadow: 
-    inset 0 1px 0 rgba(212, 175, 106, 0.2),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.8),
-    0 4px 8px rgba(0, 0, 0, 0.6);
-  transition: all 0.3s ease;
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Tales of Runaterra</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-/* Bordes ornamentados de las esquinas */
-.btn-sarato-css::before,
-.btn-sarato-css::after {
-  content: '';
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border: 2px solid #b89654;
+body{
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background-image: url('img/imgrunaterra_menu.webp');
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    overflow:hidden;
+
+    font-family:Georgia, serif;
 }
 
-.btn-sarato-css::before {
-  top: -2px;
-  left: -2px;
-  border-right: none;
-  border-bottom: none;
+.overlay{
+
+    position:relative;
+
+    width:100%;
+    max-width:700px;
+    height:900px;
 }
 
-.btn-sarato-css::after {
-  bottom: -2px;
-  right: -2px;
-  border-left: none;
-  border-top: none;
+/* BOTONES */
+
+.character{
+
+    position:absolute;
+
+    left:50%;
+    transform:translateX(-50%);
+
+    width:470px;
+    height:72px;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    transition:0.25s;
+
+    background:rgba(255,255,255,0);
 }
 
-/* Escudo + espada a la izquierda */
-.btn-sarato-css .icon {
-  position: absolute;
-  left: 18px;
-  width: 42px;
-  height: 50px;
-  background: 
-    /* Espada */
-    linear-gradient(#d4af6a, #d4af6a) center/3px 38px no-repeat,
-    linear-gradient(#d4af6a, #d4af6a) center 6px/18px 3px no-repeat,
-    /* Escudo */
-    radial-gradient(ellipse at center, #2a4a6a 0%, #1a2f42 70%, #0d141b 100%);
-  clip-path: polygon(50% 0%, 100% 15%, 100% 70%, 50% 100%, 0% 70%, 0% 15%);
-  border: 2px solid #d4af6a;
-  box-shadow: 0 0 8px rgba(212, 175, 106, 0.4);
+.character:hover{
+
+    background:rgba(214,179,106,0.12);
+
+    box-shadow:
+    0 0 20px rgba(214,179,106,0.35);
 }
 
-.btn-sarato-css:hover {
-  background: linear-gradient(180deg, #243241 0%, #111a22 100%);
-  box-shadow: 
-    inset 0 1px 0 rgba(212, 175, 106, 0.3),
-    0 0 20px rgba(212, 175, 106, 0.4),
-    0 4px 12px rgba(0, 0, 0, 0.8);
-  transform: translateY(-2px);
+/* POSICIONES */
+
+.sarato{
+    top:285px;
 }
 
-.btn-sarato-css:active {
-  transform: translateY(0px);
-  box-shadow: 
-    inset 0 2px 4px rgba(0, 0, 0, 0.6),
-    0 1px 2px rgba(0, 0, 0, 0.4);
+.ethan{
+    top:392px;
 }
+
+.elizabeth{
+    top:500px;
+}
+
+.claire{
+    top:608px;
+}
+
+.baldor{
+    top:716px;
+}
+
+.erks{
+    top:823px;
+}
+
+@media(max-width:900px){
+
+    .overlay{
+
+        transform:scale(0.8);
+    }
+
+}
+
+@media(max-width:700px){
+
+    .overlay{
+
+        transform:scale(0.6);
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="overlay">
+
+    <a href="sarato.html" class="character sarato"></a>
+
+    <a href="ethan.html" class="character ethan"></a>
+
+    <a href="elizabeth.html" class="character elizabeth"></a>
+
+    <a href="claire.html" class="character claire"></a>
+
+    <a href="baldor.html" class="character baldor"></a>
+
+    <a href="erks.html" class="character erks"></a>
+
+</div>
+
+</body>
+</html>
