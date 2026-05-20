@@ -6,23 +6,23 @@
     
     <style>
         :root {
-            --demacia-gold: #fca5a5; /* oro sangriento */
-            --demacia-blue: #8b0000; /* reemplazado por carmesí profundo */
-            --demacia-steel: #e0b3b3; /* acero rosado */
-            --noxus-red: #dc2626;
+            --demacia-gold: #c9a3a3; /* perla sangrienta - detalles claros */
+            --demacia-blue: #7a0c0c; /* rojo principal hematomancer */
+            --demacia-steel: #d4a5a5; /* acero rosado pálido */
+            --noxus-red: #b91c1c;
             --noxus-dark: #0a0000;
-            --demon-violet: #5a0a0a;
-            --demon-crimson: #7f1d1d;
-            --bg-deep: #050000;
-            --panel-bg: rgba(7, 0, 0, 0.82);
-            --blood-vein: #ff2a2a;
-            --hematite: #2b0000;
+            --demon-violet: #3a0000;
+            --demon-crimson: #5a0a0a;
+            --bg-deep: #030000;
+            --panel-bg: rgba(10, 0, 0, 0.9);
+            --blood-vein: #8b0000;
+            --hematite: #1a0000;
         }
 
         html{overflow-y:scroll} 
         body { 
-            background: url('container:///mnt/data/hematomancer_bg.jpg') center/cover fixed; background-color: var(--bg-deep);
-            background-image: url(hematomancer_bg.jpg);
+            background-color: var(--bg-deep);
+            background-image: none;
             background-size: cover; 
             background-attachment: fixed; 
             background-position: center;
@@ -38,9 +38,9 @@
             position: fixed;
             inset: 0;
             background: 
-                radial-gradient(circle at 20% 30%, rgba(163,0,0,0.25) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(127,29,29,0.2) 0%, transparent 45%),
-                linear-gradient(120deg, rgba(5,0,0,0.85) 0%, rgba(0,0,0,0.75) 50%, rgba(20,0,0,0.6) 100%);
+                radial-gradient(circle at 20% 30%, rgba(122,12,12,0.28) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(90,10,10,0.22) 0%, transparent 45%),
+                linear-gradient(120deg, rgba(3,0,0,0.9) 0%, rgba(0,0,0,0.85) 50%, rgba(10,0,0,0.7) 100%);
             pointer-events: none;
             z-index: -1;
         }
@@ -51,7 +51,7 @@
             top: 0;
             width: 280px;
             height: 100%;
-            background: rgba(7, 8, 12, 0.98);
+            background: rgba(5, 0, 0, 0.97);
             border-right: 2px solid;
             border-image: linear-gradient(to bottom, var(--blood-vein), var(--hematite)) 1;
             transition: 0.3s;
@@ -213,7 +213,7 @@
         button:hover { background: #2a3142; border-color: var(--demacia-gold); transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
         .btn-rq { 
             background: linear-gradient(to bottom, #7f1d1d, #450a0a); 
-            border: 1px solid #dc2626; 
+            border: 1px solid #b91c1c; 
             color: #fecaca; 
             text-shadow: 0 0 4px rgba(255,0,0,0.5);
             transition: all 0.2s;
@@ -635,7 +635,7 @@ Limitaciones: Consume 5 Espacios. Termina si destruyen avatar o pierdes concentr
                 <label style="display:flex;align-items:center;gap:6px;margin:6px 0;font-size:0.8rem;color:#ff6b6b"><input type="checkbox" id="chkSangreEntorno"> Usar sangre del entorno (no gasta HP)</label>
                 <input type="number" id="numTaunt" value="0" min="0" style="margin: 4px 0;" placeholder="Enemigos provocados...">
                 <div id="skillsList"></div>
-                <button id="btnForma" onclick="cambiarForma()" style="background:linear-gradient(to bottom, #7f1d1d, #450a0a); border:1px solid #dc2626; margin-top:6px; color:#fecaca;">🔄 Transformar: Darkin</button>
+                <button id="btnForma" onclick="cambiarForma()" style="background:linear-gradient(to bottom, #7f1d1d, #450a0a); border:1px solid #b91c1c; margin-top:6px; color:#fecaca;">🔄 Transformar: Darkin</button>
             </div>
 
             <div class="panel">
@@ -645,8 +645,8 @@ Limitaciones: Consume 5 Espacios. Termina si destruyen avatar o pierdes concentr
                     <input type="number" id="cantDmg" placeholder="Daño..." style="flex: 1;">
                 </div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 4px;">
-                    <button onclick="recibirDmg(false)" style="background:linear-gradient(to bottom, #991b1b, #600); border:1px solid #dc2626;">RECIBIR</button>
-                    <button onclick="recibirDmg(true)" style="background:linear-gradient(to bottom, #7f1d1d, #450a0a); border:1px solid #fca5a5;">DIRECTO</button>
+                    <button onclick="recibirDmg(false)" style="background:linear-gradient(to bottom, #991b1b, #600); border:1px solid #b91c1c;">RECIBIR</button>
+                    <button onclick="recibirDmg(true)" style="background:linear-gradient(to bottom, #7f1d1d, #450a0a); border:1px solid #c9a3a3;">DIRECTO</button>
                 </div>
                 <button onclick="modoDefensa()" style="background: #2980b9; margin-top: 4px;">🛡️ MODO DEFENSA</button>
                 <div class="total-dmg-box">
@@ -661,9 +661,9 @@ Limitaciones: Consume 5 Espacios. Termina si destruyen avatar o pierdes concentr
             <div style="display:flex; gap:15px; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
                 <div style="display:flex; gap:10px; align-items:center;">
                     <span style="font-weight:bold;">Defensa actual:</span>
-                    <span id="faseDefensaTexto" style="padding:4px 12px; background:#1f0000; border-radius:4px; color:#fca5a5; border:1px solid #7f1d1d; font-weight:bold;">1º Defensa</span>
+                    <span id="faseDefensaTexto" style="padding:4px 12px; background:#1f0000; border-radius:4px; color:#c9a3a3; border:1px solid #7f1d1d; font-weight:bold;">1º Defensa</span>
                 </div>
-                <button onclick="usarDefensa()" style="padding:6px 12px; background:linear-gradient(to bottom, #b91c1c, #7f1d1d); border:1px solid #dc2626; color:white; border:none; border-radius:4px; cursor:pointer;">Usé Defensa</button>
+                <button onclick="usarDefensa()" style="padding:6px 12px; background:linear-gradient(to bottom, #b91c1c, #7f1d1d); border:1px solid #b91c1c; color:white; border:none; border-radius:4px; cursor:pointer;">Usé Defensa</button>
             </div>
             <div id="descDefensa" style="background:#1a1a1a; padding:10px; border-radius:4px; border:1px solid #444; color:#ddd; font-size:0.85rem;">
                 <b>1º Defensa:</b> Utiliza tu modificador de estadística completo para defenderte
@@ -675,7 +675,7 @@ Limitaciones: Consume 5 Espacios. Termina si destruyen avatar o pierdes concentr
 
             
 <div style="display: flex; gap: 8px; margin: 8px 0;">
-    <button onclick="pasarTurno()" style="flex: 1; padding: 10px; background: linear-gradient(to bottom, #991b1b, #7f1d1d); border:1px solid #dc2626; color: white; border: none; border-radius: 4px; cursor: pointer;">
+    <button onclick="pasarTurno()" style="flex: 1; padding: 10px; background: linear-gradient(to bottom, #991b1b, #7f1d1d); border:1px solid #b91c1c; color: white; border: none; border-radius: 4px; cursor: pointer;">
         ⏭️ PASAR TURNO
     </button>
     <button onclick="resetCombate()" style="flex: 1; padding: 10px; background: linear-gradient(to bottom, #450a0a, #1f0000); border:1px solid #7f1d1d; color: white; border: none; border-radius: 4px; cursor: pointer;">
