@@ -6,15 +6,15 @@
     
     <style>
         :root {
-            --demacia-gold: #c89b3c;
-            --demacia-blue: #3a5fcd;
-            --demacia-steel: #9bb8e8;
-            --noxus-red: #8b0000;
-            --noxus-dark: #1a0000;
-            --demon-violet: #7b2cbf;
-            --demon-crimson: #660708;
-            --bg-deep: #07080c;
-            --panel-bg: rgba(10, 12, 18, 0.92);
+            --demacia-gold: #d4af37;
+            --demacia-blue: #1d4ed8;
+            --demacia-steel: #8fb4e0;
+            --noxus-red: #0f172a;
+            --noxus-dark: #050a12;
+            --demon-violet: #2c3a6b;
+            --demon-crimson: #1e3a8a;
+            --bg-deep: #050a12;
+            --panel-bg: rgba(10, 20, 35, 0.92);
         }
 
         html{overflow-y:scroll} 
@@ -35,7 +35,7 @@
             content: '';
             position: fixed;
             inset: 0;
-            background: linear-gradient(120deg, rgba(58,95,205,0.15) 0%, rgba(0,0,0,0.7) 40%, rgba(139,0,0,0.25) 100%);
+            background: linear-gradient(120deg, rgba(29,78,216,0.18) 0%, rgba(0,0,0,0.75) 45%, rgba(212,175,55,0.12) 100%);
             pointer-events: none;
             z-index: -1;
         }
@@ -48,7 +48,7 @@
             height: 100%;
             background: rgba(7, 8, 12, 0.98);
             border-right: 2px solid;
-            border-image: linear-gradient(to bottom, var(--demacia-blue), var(--noxus-red)) 1;
+            border-image: linear-gradient(to bottom, var(--demacia-blue), var(--demacia-gold)) 1;
             transition: 0.3s;
             z-index: 1000;
             padding: 20px 15px;
@@ -66,7 +66,7 @@
             height: 45px;
             background: rgba(15, 15, 20, 0.95);
             color: var(--demacia-gold);
-            border: 1px solid var(--noxus-red);
+            border: 1px solid var(--demacia-gold);
             border-left: none;
             border-radius: 0 8px 8px 0;
             cursor: pointer;
@@ -74,14 +74,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 10px rgba(139,0,0,0.5);
+            box-shadow: 0 0 10px rgba(212,175,55,0.35);
         }
         .btn-limpiar-menu {
             background: var(--noxus-dark) !important;
             font-size: 0.7rem !important;
             margin-top: auto !important;
             opacity: 0.6;
-            border: 1px solid var(--noxus-red);
+            border: 1px solid var(--demacia-gold);
         }
         .btn-limpiar-menu:hover { opacity: 1; background: var(--noxus-red) !important; }
 
@@ -107,20 +107,20 @@
         }
         
         .avatar-active { 
-            box-shadow: 0 0 25px var(--noxus-red), inset 0 0 15px var(--demon-violet); 
+            box-shadow: 0 0 25px var(--demacia-blue), inset 0 0 15px var(--demacia-gold); 
             border-color: var(--demacia-gold) !important; 
             transition: 0.3s;
             animation: demonic-pulse 3s infinite;
         }
         @keyframes demonic-pulse {
-            0%,100% { box-shadow: 0 0 20px var(--noxus-red), inset 0 0 10px var(--demon-violet); }
-            50% { box-shadow: 0 0 35px var(--demon-crimson), inset 0 0 20px var(--demacia-blue); }
+            0%,100% { box-shadow: 0 0 20px var(--demacia-blue), inset 0 0 10px var(--demon-violet); }
+            50% { box-shadow: 0 0 35px var(--demacia-gold), inset 0 0 20px var(--demacia-blue); }
         }
         
         h1 { 
             text-align: center; 
             color: var(--demacia-gold); 
-            text-shadow: 2px 2px 6px #000, 0 0 12px var(--noxus-red); 
+            text-shadow: 2px 2px 6px #000, 0 0 12px rgba(29,78,216,0.6); 
             margin: 5px 0; 
             font-size: 1.6rem;
             letter-spacing: 1px;
@@ -137,7 +137,7 @@
         }
         h3 { 
             border-bottom: 1px solid;
-            border-image: linear-gradient(to right, var(--demacia-blue), var(--noxus-red)) 1;
+            border-image: linear-gradient(to right, var(--demacia-blue), var(--demacia-gold)) 1;
             padding-bottom: 3px; 
             color: var(--demacia-gold); 
             margin: 0 0 8px 0; 
@@ -146,7 +146,7 @@
         
         table { width: 100%; border-collapse: collapse; text-align: center; background: rgba(0,0,0,0.5); }
         th, td { border: 1px solid #333847; padding: 4px; }
-        th { background: linear-gradient(to bottom, rgba(58,95,205,0.2), rgba(139,0,0,0.2)); color: var(--demacia-gold); }
+        th { background: linear-gradient(to bottom, rgba(29,78,216,0.25), rgba(212,175,55,0.15)); color: var(--demacia-gold); }
         .mod-val { color: var(--demacia-gold); font-weight: bold; font-size: 1.1em; text-shadow: 0 0 4px rgba(200,155,60,0.5); }
         .buff-val { color: #2ecc71; font-weight: bold; }
 
@@ -155,9 +155,9 @@
             border-radius: 6px; 
             padding: 12px; 
             border-top: 2px solid;
-            border-image: linear-gradient(to right, var(--demacia-blue), var(--demon-violet), var(--noxus-red)) 1;
+            border-image: linear-gradient(to right, var(--demacia-blue), var(--demacia-gold), var(--demacia-blue)) 1;
             margin-bottom: 10px;
-            box-shadow: inset 0 0 15px rgba(123,44,191,0.15);
+            box-shadow: inset 0 0 15px rgba(29,78,216,0.18);
         }
         .vital-header { display: flex; align-items: center; gap: 8px; color: var(--demacia-steel); font-weight: bold; margin-bottom: 10px; font-size: 0.95rem; }
         .vital-main { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
@@ -171,7 +171,7 @@
             border-radius: 5px; 
             margin-bottom: 5px; 
             border-left: 3px solid;
-            border-image: linear-gradient(to bottom, var(--demacia-gold), var(--noxus-red)) 1;
+            border-image: linear-gradient(to bottom, var(--demacia-gold), var(--demacia-blue)) 1;
         }
         select, input { 
             background: #12141c; 
@@ -214,7 +214,7 @@
         
         .status-tag { display: flex; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 3px 6px; margin: 2px 0; border-radius: 3px; border-left: 2px solid var(--demacia-gold); font-size: 0.75em; }
         
-        .total-dmg-box { background: rgba(102, 7, 8, 0.5); border: 1px solid var(--noxus-red); padding: 5px; text-align: center; border-radius: 4px; margin-top: 5px; }
+        .total-dmg-box { background: rgba(102, 7, 8, 0.5); border: 1px solid var(--demacia-gold); padding: 5px; text-align: center; border-radius: 4px; margin-top: 5px; }
 
         .item-entry { background: rgba(255,255,255,0.05); padding: 6px; margin: 4px 0; border-radius: 4px; border-left: 2px solid #d97706; font-size: 0.75rem; }
         .money-entry { display: flex; justify-content: space-between; color: var(--demacia-gold); border-bottom: 1px solid #333847; padding: 2px 0; }
@@ -793,10 +793,11 @@ Limitaciones: Consume 5 Espacios. Termina si destruyen avatar o pierdes concentr
             renderSkills();
         }
 
-function recibirDmg(esDirecto, esMagico = false) {
+function recibirDmg(esDirecto) {
     let d = Number(document.getElementById("cantDmg").value);
     if (!d || d <= 0) return;
 
+    let esMagico = document.getElementById("tipoDmg").value === "Mágico";
     state.acumuladoDmg += d;
     let tipo = esMagico ? "MÁGICO" : "FÍSICO";
     log("💥 Daño " + tipo + " entrante: " + d, "yellow");
@@ -836,6 +837,7 @@ function recibirDmg(esDirecto, esMagico = false) {
         
         // 3. ARMADURA o RM
         if (esMagico) {
+            // Daño mágico va a MR
             if (state.mr > 0 && d > 0) {
                 let absorbido = Math.min(state.mr, d);
                 state.mr = state.mr - absorbido;
