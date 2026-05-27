@@ -386,7 +386,7 @@ Limitaciones: Consume 5 Espacios. Termina si destruyen avatar o pierdes concentr
             <div class="estado-vital-container">
                 <div class="vital-header">❤️ Estado Vital</div>
                 <div class="vital-main">
-                    <div class="hp-label">HP: <span id="vida">170</span> / <span id="vidaMax">170</span></div>
+                    <div class="hp-label">HP: <span id="vida">175</span> / <span id="vidaMax">175</span></div>
                     <div class="shield-label">Escudo: <span id="esc">0</span></div>
                 </div>
                 <div class="defensas-row">
@@ -616,7 +616,7 @@ Cuando combates y caes, el núcleo obliga a exigirte. Sigues combatiendo hasta l
         let modo = "normal";
         let turnoActual = 1;
         let state = {
-            vida: 170, vidaMax: 170, arm: 0, mr: 0, esc: 0, rq: 0, conjuros: 13,
+            vida: 175, vidaMax: 175, arm: 0, mr: 0, esc: 0, rq: 0, conjuros: 13,
             enemigosProvocados: 0, acumuladoDmg: 0,
             estadosTemporales: [],
             buffsStats: { Fuerza: 0, Destreza: 0, Percepcion: 0, Inteligencia: 0, Magia: 0, Aguante: 0 },
@@ -853,7 +853,7 @@ function recibirDmg(esDirecto, esMagico = false) {
 
         function resetSistema() {
             resetDefensa(); // Resetear fase de defensa al resetear combate
-            state.vida = 170; state.vidaMax = 170; state.arm = 0; state.mr = 0; state.esc = 0;
+            state.vida = 175; state.vidaMax = 175; state.arm = 0; state.mr = 0; state.esc = 0;
             state.rq = 0; state.conjuros = 13; state.enemigosProvocados = 0; state.acumuladoDmg = 0;
             state.estadosTemporales = [];
             state.buffsStats = { Fuerza: 0, Destreza: 0, Percepcion: 0, Inteligencia: 0, Magia: 0, Aguante: 0, Suerte: 0 };
