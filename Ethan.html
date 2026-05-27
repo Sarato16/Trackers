@@ -441,7 +441,7 @@ function actualizarArmaduraVacio(){
 <div class="estado-vital-container">
 <div class="vital-header">❤️ Estado Vital</div>
 <div class="vital-main">
-<div class="hp-label">HP: <span id="vida">90</span> / <span id="vidaMax">90</span></div>
+<div class="hp-label">HP: <span id="vida">75</span> / <span id="vidaMax">75</span></div>
 <div class="shield-label">Escudo: <span id="esc">0</span></div>
 </div>
 <div class="defensas-row">
@@ -611,7 +611,7 @@ function actualizarArmaduraVacio(){
             bosqueRetorcido: true,
             cargaEstatica: false,
             deidadActivo: false,
-            vida: 90, vidaMax: 90, arm: 0, mr: 0, esc: 0, rq: 0, conjuros: 16,
+            vida: 75, vidaMax: 75, arm: 0, mr: 0, esc: 0, rq: 0, conjuros: 16,
             enemigosProvocados: 0, acumuladoDmg: 0,
             estadosTemporales: [],
             buffsStats: { Fuerza: 0, Destreza: 0, Percepcion: 0, Inteligencia: 0, Magia: 0, Aguante: 0 },
@@ -860,7 +860,7 @@ function recibirDmg(esDirecto, esMagico = false) {
 
         function resetSistema() {
             resetDefensa(); // Resetear fase de defensa al resetear combate
-            state.vida = 90; state.vidaMax = 90; state.arm = 0; state.mr = 0; state.esc = 0;
+            state.vida = 75; state.vidaMax = 75; state.arm = 0; state.mr = 0; state.esc = 0;
             state.rq = 0; state.conjuros = 16; state.enemigosProvocados = 0; state.acumuladoDmg = 0;
             state.estadosTemporales = [];
             state.buffsStats = { Fuerza: 0, Destreza: 0, Percepcion: 0, Inteligencia: 0, Magia: 0, Aguante: 0, Suerte: 0 };
@@ -1423,7 +1423,7 @@ function toggleDeidad(){
         b.style.background = '#92400e';
         log('Modo Deidad ACTIVADO: Vida 270, Escudo 70, Vel x4', 'gold');
     } else {
-        state.vidaMax = state._vidaPrev || 90;
+        state.vidaMax = state._vidaPrev || 75;
         state.vida = Math.min(state.vida, state.vidaMax);
         state.esc = state._escPrev || 0;
         b.innerText = '⚡ Activar Modo Deidad';
