@@ -579,7 +579,19 @@ Limitaciones: Consume 5 Espacios. Termina si destruyen avatar o pierdes concentr
                 <button class="skill-btn-tooltip" 
                         data-tooltip="Fuera de combate: +3 en tiradas para sostener estructuras, resistir derrumbes o frenar embestidas. En combate: +3 a tiradas de oposición vs empujes/derribos."
                         onclick="event.stopPropagation(); posturaInquebrantable()">🗿 Postura Inquebrantable</button>
-            </div>
+                <button class="skill-btn-tooltip"
+                data-tooltip="Humano: Presencia Abrumadora:  Por cada enemigo a 5m alrededor de ti, obtienes +3 de mitigación de daño físico / Darkin: Por cada enemigo a 5m alrededor de ti, obtienes +3 de daño"
+                onclick="event.stopPropagation(); presenciaAbrumadora()">⚔ Presencia Abrumadora</button>
+                <button class="skill-btn-tooltip"
+                data-tooltip="Los elementos se doblegan ante tu determinación, pudiendo moldear un elemento físico para utilizarlo a tu voluntad ya sea arma, armadura o alguna invención creativa (menos Oropel y Obsidiana)
+Objeto grande: 1d12 daño / +20 Armadura Física
+Objeto mediano: 1d8 daño / +12 Armadura Física
+Objeto pequeño: 1d6 daño / +8 Armadura Física
+Tu conocimiento arquitectónico impide intrusos indeseados, eres inmune al magnetismo, ferromancia o cualquier hechizo/conjuro que quiera separarte de tus objetos (excepto que sean mentales)  o quieran usar tus elementos como puntos hostiles para movilizarte.
+" 
+                        onclick="event.stopPropagation(); MarcadelArquitectoinfernal()">🛠 Marca del arquitecto 7mo Inf.</button>
+                
+                    </div>
 
             <div class="panel hover-panel" onclick="this.classList.toggle('active')">
                 <h3>💊 Recursos</h3>
@@ -933,11 +945,13 @@ function recibirDmg(esDirecto) {
                 ['Prot. Fugaz', 2, 'Barrera 1d20+Fue+Agu'],
                 ['Glifo del Guardián', 3, 'Éxtasis 1t, cura 1d20+Agu'],
                 ['Exilio', 3, '-15 enemigo / +15 tú'],
+                ['Ruptura del Bastión', 4, 'Escudo 2d12 + Mod.Agu (INT CD 20)'],
                 ['Efigie', 5, 'Domo 20m, 5d20+Fue']
             ] : [
                 ['Sobrecarga Carmesí', 1, 'Devuelve x2 con ventaja'],
                 ['Égida Carmesí', 2, 'Barrera 1d20+Fue+Agu'],
                 ['Dominio Carmesí', 4, 'Provoca 40m, +3 Fue/enemigo'],
+                ['Ruptura Infernal', 4, '3d12 + Mod.Fue. Fuego - taunt 1d8 fuego-*'],
                 ['Efigie Darkin', 5, 'Avatar 300HP, 8d20+Fue']
             ];
 

@@ -599,6 +599,15 @@ Limitaciones: Consume 5 Espacios. Termina si destruyen avatar o pierdes concentr
                 <button class="skill-btn-tooltip" 
                         data-tooltip="Por cada pérdida de vida, ganas el mismo valor en escudo temporal mágico."
                         onclick="event.stopPropagation(); toggleIntercambio()">🛡️ Intercambio Equivalente</button>
+                 <button class="skill-btn-tooltip"  
+                 data-tooltip="Las tiradas de investigación que realices las haces con ventaja.
+Puedes imponer mandatos antes cualquier criatura que haya pecado (Salv. INT CD:21)
+Arrodíllate
+Silencio
+Retrocede
+Cualquier acción menor, que no tiente contra la vida de esa criatura
+"      
+onclick="event.stopPropagation(); Marcadelmandatoinfernal()">🔥Marca del Mandato infernal 7mo Inf.</button>
                 <div style="margin-top:8px;padding:6px;background:#1a0000;border-radius:4px" onclick="event.stopPropagation();">
                     <b>🧪 Factor RH</b> <span style="color:#ff6b6b">(<span id="numViales">0</span>/3)</span>
                     <div style="font-size:0.75rem;margin:4px 0">Por cada vial reduces 1 espacio de conjuro</div>
@@ -937,7 +946,7 @@ function recibirDmg(esDirecto, esMagico = false) {
 
         function resetSistema() {
             resetDefensa(); // Resetear fase de defensa al resetear combate
-            state.vida = 60; state.vidaMax = 90; state.arm = 0; state.mr = 0; state.esc = 0;
+            state.vida = 90; state.vidaMax = 90; state.arm = 0; state.mr = 0; state.esc = 0;
             state.cargasSangre = 0; state.conjuros = 16; state.enemigosProvocados = 0; state.acumuladoDmg = 0;
             state.estadosTemporales = [];
             state.fase = 'Inicial';

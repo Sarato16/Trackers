@@ -7,7 +7,7 @@
 <style>
         html{overflow-y:scroll} body { 
     background-color: #020b14; 
-   background-image: url('img/claire.jpg'); 
+    background-image: url('fondo_hielo.jpg'); 
     background-size: cover; 
     background-attachment: fixed; 
     background-position: center;
@@ -455,6 +455,11 @@ Consume 9 Espacios`
 <button class="skill-btn-tooltip" data-tooltip="Cada 3 flechas lanzadas recupera 1." onclick="event.stopPropagation(); log('Pasiva: Carroñera','cyan')">♻️ Carroñera</button>
 <button class="skill-btn-tooltip" data-tooltip="Si una flecha mata a un enemigo, puede redireccionar a otro, 1d8 perforante." onclick="event.stopPropagation(); log('Pasiva: Silbido agudo','cyan')">🔊 Silbido agudo</button>
 <button class="skill-btn-tooltip" data-tooltip="En terreno favorable, arco activo: hielo verdadero (sin Avarosana) o hielo puro (con Avarosana)." onclick="event.stopPropagation(); log('Pasiva: Flecha Verdadera','cyan')">💎 Flecha Verdadera</button>
+<button class="skill-btn-tooltip" data-tooltip="Las llamas negras responden a tu voluntad, cualquier llama se vuelve negra ante tu vista y danza a tu compas (puede utilizarla, apagarla o llevártela).
+Cualquier hechizo que tenga como foco un elemento puede ser cambiado por fuego negro.
+Fuego Negro: Ignora resistencia (no inmudad), derrite cualquier metal, arma/armadura no magica (menos Oropel y Obsidiana), derrite hielo verdadero.
+"
+onclick="event.stopPropagation(); Marcadeleclipseigneo()">🔥Marca del Eclipse igneo 7mo infierno</button>
 <div onclick="event.stopPropagation()" style="margin-top:8px; padding:6px; background:rgba(0,180,255,0.15); border-left:3px solid #4fc3f7; border-radius:4px; display:flex; align-items:center; gap:8px; font-size:0.8rem;">
   <span>🎯 Críticos (Meticuloso):</span>
   <span id="cntDemonios" style="color:#7dd3fc; font-weight:bold; min-width:18px; text-align:center;">0</span>

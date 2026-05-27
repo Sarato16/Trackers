@@ -7,7 +7,7 @@
 <style>
         html{overflow-y:scroll} body { 
     background-color: #0a0a0a; 
-   background-image: url('img/baldor.jpg');
+    background-image: url('baldor_fondo.jpg'); 
     background-size: cover; 
     background-attachment: fixed; 
     background-position: center;
@@ -453,6 +453,10 @@ Consume 9 Espacios`
 <button class="skill-btn-tooltip" data-tooltip="Aliados en 10m obtienen +5 ARM y +7 MR. Click para activar/desactivar en ti." onclick="event.stopPropagation(); toggleProtego()">🛡️ Protego</button>
 <button class="skill-btn-tooltip" data-tooltip="Ve en la oscuridad y entidades ocultas visualizando sus almas (solo con alma)." onclick="event.stopPropagation(); log('Pasiva: Cosecha Oscura','gray')">👁️ Cosecha Oscura</button>
 <button class="skill-btn-tooltip" data-tooltip="Demonios al morir explotan: daño = Mod.MAG, Salv Des CD13 evita." onclick="event.stopPropagation(); log('Pasiva: A su merced','red')">💥 A su merced</button>
+<button class="skill-btn-tooltip" data-tooltip="Las invocaciones realizadas por el PJ, pueden lanzar un conjuro de hasta nivel 3 como acción sin consumir Espacio de Conjuro, pero luego de eso, la invocación desaparece.
+Las órdenes tanto a las invocaciones como aliados pueden ser dadas de forma gratuita y se realizarán con ventaja.
+"
+onclick="event.stopPropagation(); Marcadelcomandate()"> 🔥Marca del Comandante 7mo Inf.</button>
 <div onclick="event.stopPropagation()" style="margin-top:8px; padding:6px; background:rgba(139,0,0,0.2); border-left:3px solid #ff6b6b; border-radius:4px; display:flex; align-items:center; gap:8px; font-size:0.8rem;">
   <span>😈 Demonios activos:</span>
   <span id="cntDemonios" style="color:#ff6b6b; font-weight:bold; min-width:18px; text-align:center;">0</span>
