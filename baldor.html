@@ -373,7 +373,7 @@ Consume 9 Espacios`
 <div class="estado-vital-container">
 <div class="vital-header">❤️ Estado Vital</div>
 <div class="vital-main">
-<div class="hp-label">HP: <span id="vida">75</span> / <span id="vidaMax">75</span></div>
+<div class="hp-label">HP: <span id="vida">60</span> / <span id="vidaMax">60</span></div>
 <div class="shield-label">Escudo: <span id="esc">0</span></div>
 </div>
 <div class="defensas-row">
@@ -471,7 +471,7 @@ onclick="event.stopPropagation(); Marcadelcomandate()"> 🔥Marca del Comandante
 <h3>💀 Dios de la muerte</h3>
 <div style="padding:8px; font-size:0.8rem;">
   <button onclick="event.stopPropagation(); toggleModoMuerte()" id="btnModoMuerte" style="background:#4b0082; width:100%; margin-bottom:8px; font-weight:bold;">💀 Modo Muerte</button>
-  <div id="estadoModoMuerte" style="text-align:center; font-size:0.7rem; color:#888; margin-bottom:8px;">Inactivo - HP 75</div>
+  <div id="estadoModoMuerte" style="text-align:center; font-size:0.7rem; color:#888; margin-bottom:8px;">Inactivo - HP 60</div>
   
 <div style="margin-bottom:8px;">
   <div style="font-weight:bold; color:#c084fc; margin-bottom:4px; border-bottom:1px solid #333; padding-bottom:2px;">🛡️ Rasgos</div>
@@ -597,8 +597,8 @@ onclick="event.stopPropagation(); Marcadelcomandate()"> 🔥Marca del Comandante
         let modo = "elemental";
         let turnoActual = 1;
         let state = {
-            vida: 75, vidaMax: 75, arm: 0, mr: 0, esc: 0, rq: 0, conjuros: 18,
-            enemigosProvocados: 0, acumuladoDmg: 0, almas: 0, demoniosActivos: 0, diosActivo: false, vidaBase: 75, protegoActivo: false,
+            vida: 60, vidaMax: 60, arm: 0, mr: 0, esc: 0, rq: 0, conjuros: 18,
+            enemigosProvocados: 0, acumuladoDmg: 0, almas: 0, demoniosActivos: 0, diosActivo: false, vidaBase: 60, protegoActivo: false,
             estadosTemporales: [],
             buffsStats: { Fuerza: 0, Destreza: 0, Percepcion: 0, Inteligencia: 0, Magia: 0, Aguante: 0 },
             modsDirectos: { Fuerza: 0, Destreza: 0, Percepcion: 0, Inteligencia: 0, Magia: 0, Aguante: 0, },
@@ -830,7 +830,7 @@ function recibirDmg(esDirecto, esMagico = false) {
 
         function resetSistema() {
             resetDefensa(); // Resetear fase de defensa al resetear combate
-            state.vida = 75; state.vidaMax = 75; state.arm = 0; state.mr = 0; state.esc = 0;
+            state.vida = 60; state.vidaMax = 60; state.arm = 0; state.mr = 0; state.esc = 0;
             state.rq = 0; state.conjuros = 18; state.enemigosProvocados = 0; state.acumuladoDmg = 0;
             state.estadosTemporales = [];
             state.buffsStats = { Fuerza: 0, Destreza: 0, Percepcion: 0, Inteligencia: 0, Magia: 0, Aguante: 0, Suerte: 0 };
@@ -1153,7 +1153,7 @@ Consume 9 Espacios`
             } else {
                 // Desactivar
                 state.diosActivo = false;
-                state.vidaMax = state.vidaBase || 75;
+                state.vidaMax = state.vidaBase || 60;
                 state.vida = Math.min(state.vida, state.vidaMax);
                 state.esc = 0;
                 state.buffsStats.Inteligencia -= 20;
@@ -1192,7 +1192,7 @@ Consume 9 Espacios`
         log('💀 MODO MUERTE ACTIVADO: +20 INT, +15 MAG, +10 PER', '#4b0082');
     } else {
         state.diosActivo = false;
-        state.vidaMax = state.vidaBase || 75;
+        state.vidaMax = state.vidaBase || 60;
         state.vida = Math.min(state.vida, state.vidaMax);
         state.esc = 0;
         state.buffsStats.Inteligencia -= 20;
@@ -1234,7 +1234,7 @@ Consume 9 Espacios`
             } else {
                 // Desactivar
                 state.diosActivo = false;
-                state.vidaMax = state.vidaBase || 75;
+                state.vidaMax = state.vidaBase || 60;
                 state.vida = Math.min(state.vida, state.vidaMax);
                 state.esc = 0;
                 state.buffsStats.Inteligencia -= 20;
