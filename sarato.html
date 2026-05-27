@@ -1013,7 +1013,18 @@ Puedes lanzar conjuros desde el avatar y atacar con su espada.
 Avatar: Daño 8d20 + Mod.Fue | Alcance 20m línea / 10m barrido | HP 300
 Aura 10m: aliados +5 ataque O robo vida = 50% daño físico
 
-Limitaciones: Consume 5 Espacios. Termina si destruyen avatar o pierdes concentración`,};
+Limitaciones: Consume 5 Espacios. Termina si destruyen avatar o pierdes concentración`,
+                "Ruptura del Bastión": `Nivel 4 - Acción: Ruptura del Bastión
+Golpeas el suelo con tu escudo generando una onda defensiva en área.
+
+Pros: Tú y aliados obtienen escudo 2d12 + Mod. Agu e inmunidad a ser desplazados por 1 turno. Enemigos que fallen Salv. INT (CD20) sufren desventaja en tiradas de ataque; si están provocados, su movimiento se reduce a la mitad.
+Limitaciones: Salvación INT CD20 niega efecto en enemigos. Consume 4 Espacios. Requiere escudo`,
+                "Ruptura Infernal": `Nivel 4 - Acción: Ruptura Infernal
+Golpeas el suelo desatando un fuego abrazador en área.
+
+Pros: Enemigos reciben 3d12 + Mod. Fue de daño de fuego. Si están bajo efecto de Taunt, aplicas Quemadura: 1d8 daño por turno.
+Avatar: Explosión retardada al final de tu turno que inflige 2d12 daño de fuego y extiende la duración de la Quemadura 2 turnos más.
+Limitaciones: Consume 4 Espacios. Dura 2 turnos`,};
             
             document.getElementById("skillsList").innerHTML = skills.map(s => {
                 let nombre = s[0];
@@ -1293,6 +1304,21 @@ Daño: 8d20 + Mod.Fue (20m línea / 10m barrido)
 Aura 10m: aliados eligen +5 ataque O robo vida = 50% daño físico
 
 Limitaciones: Consume 5 Espacios. Termina si destruyen avatar o pierdes concentración`,
+            "Ruptura de Bastión": `Nivel 4 - Acción: Ruptura de Bastión
+Duración: 1 turno
+Consumo: 4 Espacios
+Salvación: INT CD20 - niega efecto
+
+Golpeas el suelo con tu escudo generando una onda defensiva otorgándote a ti y aliados un escudo: 2d12 + Mod. Agu y evitando ser desplazados.
+
+Enemigos afectados que fallen la salvación obtienen desventaja en su tirada de ataque y si están provocados reducen su movimiento a la mitad.`,
+            "Ruptura Infernal": `Nivel 4 - Acción: Ruptura Infernal
+Duración: 2 turnos
+Consumo: 4 Espacios
+
+Golpeas el suelo desatando un fuego abrazador, los enemigos en el área reciben 3d12 + Mod. Fue de daño de fuego y si están bajo efecto de Taunt se aplica Quemadura: 1d8 daño por turno.
+
+Avatar: Luego del impacto se genera una explosión retardada al final de tu turno provocando 2d12 daño de fuego y extendiendo la duración de la quemadura 2 turnos más.`,
             // PASIVAS NUEVAS
             "Salto de protección": `Reacción
 Pros: Saltas a aliado en peligro, absorbes impacto y mitiga 3+Mod.Agu daño
