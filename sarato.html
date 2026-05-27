@@ -483,7 +483,7 @@ Limitaciones: Consume 5 Espacios. Termina si destruyen avatar o pierdes concentr
             <div class="estado-vital-container">
                 <div class="vital-header">❤️ Estado Vital</div>
                 <div class="vital-main">
-                    <div class="hp-label">HP: <span id="vida">145</span> / <span id="vidaMax">145</span></div>
+                    <div class="hp-label">HP: <span id="vida">155</span> / <span id="vidaMax">155</span></div>
                     <div class="shield-label">Escudo: <span id="esc">0</span></div>
                 </div>
                 <div class="defensas-row">
@@ -675,7 +675,7 @@ Tu conocimiento arquitectónico impide intrusos indeseados, eres inmune al magne
         let modo = "normal";
         let turnoActual = 1;
         let state = {
-            vida: 145, vidaMax: 145, arm: 0, mr: 0, esc: 0, rq: 0, conjuros: 13,
+            vida: 155, vidaMax: 155, arm: 0, mr: 0, esc: 0, rq: 0, conjuros: 13,
             enemigosProvocados: 0, acumuladoDmg: 0,
             estadosTemporales: [],
             buffsStats: { Fuerza: 0, Destreza: 0, Percepcion: 0, Inteligencia: 0, Magia: 0, Aguante: 0 },
@@ -911,7 +911,7 @@ function recibirDmg(esDirecto) {
 
         function resetSistema() {
             resetDefensa(); // Resetear fase de defensa al resetear combate
-            state.vida = 145; state.vidaMax = 145; state.arm = 0; state.mr = 0; state.esc = 0;
+            state.vida = 155; state.vidaMax = 155; state.arm = 0; state.mr = 0; state.esc = 0;
             state.rq = 0; state.conjuros = 13; state.enemigosProvocados = 0; state.acumuladoDmg = 0;
             state.estadosTemporales = [];
             state.buffsStats = { Fuerza: 0, Destreza: 0, Percepcion: 0, Inteligencia: 0, Magia: 0, Aguante: 0, Suerte: 0 };
