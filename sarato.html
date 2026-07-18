@@ -673,7 +673,7 @@ Tu conocimiento arquitectónico impide intrusos indeseados, eres inmune al magne
         let modo = "normal";
         let turnoActual = 1;
         let state = {
-            vida: 155, vidaMax: 155, arm: 0, mr: 0, esc: 0, rq: 0, conjuros: 13,
+            vida: 155, vidaMax: 155, arm: 0, mr: 0, esc: 0, rq: 0, conjuros: 16,
             enemigosProvocados: 0, acumuladoDmg: 0,
             estadosTemporales: [],
             buffsStats: { Fuerza: 0, Destreza: 0, Percepcion: 0, Inteligencia: 0, Magia: 0, Aguante: 0 },
@@ -910,7 +910,7 @@ function recibirDmg(esDirecto) {
         function resetSistema() {
             resetDefensa(); // Resetear fase de defensa al resetear combate
             state.vida = 155; state.vidaMax = 155; state.arm = 0; state.mr = 0; state.esc = 0;
-            state.rq = 0; state.conjuros = 13; state.enemigosProvocados = 0; state.acumuladoDmg = 0;
+            state.rq = 0; state.conjuros = 16; state.enemigosProvocados = 0; state.acumuladoDmg = 0;
             state.estadosTemporales = [];
             state.buffsStats = { Fuerza: 0, Destreza: 0, Percepcion: 0, Inteligencia: 0, Magia: 0, Aguante: 0, Suerte: 0 };
             state.modsDirectos = { Fuerza: 0, Destreza: 0, Percepcion: 0, Inteligencia: 0, Magia: 0, Aguante: 0, Suerte: 0  };
@@ -931,7 +931,7 @@ function recibirDmg(esDirecto) {
             document.getElementById("numConj").innerText = state.conjuros;
             document.getElementById("totalRecibido").innerText = state.acumuladoDmg;
             let h = "";
-            for (let i = 0; i < 13; i++) h += `<span class="orbe ${i < state.conjuros ? '' : 'vacio'}"></span>`;
+            for (let i = 0; i < 16; i++) h += `<span class="orbe ${i < state.conjuros ? '' : 'vacio'}"></span>`;
             document.getElementById("orbes").innerHTML = h;
             renderSkills();
         }
